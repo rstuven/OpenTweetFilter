@@ -1,0 +1,6 @@
+﻿{
+  "description": {
+    "message": "Filtra tweets en el sitio web de Twitter.",
+    "description": "Descripción de la extensión en el manifiesto."
+  }
+}

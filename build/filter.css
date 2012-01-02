@@ -1,0 +1,96 @@
+﻿/**
+ * Button 
+ */
+
+#filter-button {
+  cursor: pointer;
+}
+
+#filter-button-status {
+  float: left;
+  font-size: 26px;
+  margin-top: -7px;
+}
+
+#filter-button-title {
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.t1 .nav.filter {
+  margin-left: -12px;
+}
+
+.t1 .nav.filter li {
+  cursor: pointer;
+}
+
+/**
+ * Dialog
+ */
+
+#filter-dialog-container {
+  width:490px !important;
+}
+
+#filter-dialog fieldset {
+    margin: 10px 0px;
+    width: 100%;
+}
+
+.t1 #filter-dialog fieldset .btn {
+  font-weight: normal;
+}
+
+#filter-dialog fieldset input[type="text"] {
+    width: 12em;
+}
+
+#filter-dialog fieldset input[type="text"] {
+    border-bottom-left-radius: 3px 3px;
+    border-bottom-right-radius: 3px 3px;
+    border-top-left-radius: 3px 3px;
+    border-top-right-radius: 3px 3px;
+}
+
+#filter-dialog fieldset input[type="text"] {
+    border: 1px solid #AAA;
+    padding: 4px 2px;
+}
+
+.btn.filter-list-label {
+  float:left;
+  margin-bottom: 2px;
+}
+
+div.filter-list-label {
+  padding-top: 4px;
+}
+
+.t1 div.filter-list-label {
+  padding-top: 7px;
+}
+
+.filter-terms-list, .filter-users-list {
+  width: 465px !important;
+}
+
+.t1 .filter-terms-list, .t1 .filter-users-list {
+  width: 455px !important;
+}
+
+.t1 #filter-dialog .twttr-dialog-footer {
+  padding-top: 10px;
+  height: 25px;
+}
+
+.twttr-dialog-footer .filter-dialog-footer-left {
+  left: 10px;
+  float: left;
+}
+
+.twttr-dialog-footer .filter-dialog-footer-right {
+  right: 10px;
+  float: right;
+}

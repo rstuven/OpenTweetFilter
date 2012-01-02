@@ -1,0 +1,6 @@
+﻿{
+  "description": {
+    "message": "Filter tweets in Twitter web site.",
+    "description": "Extension description in manifest."
+  }
+}
