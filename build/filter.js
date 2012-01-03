@@ -402,7 +402,7 @@
     clear: 'Clear',
     close: 'Close',
     filter: 'Filter',
-    welcome_tip: 'Pssst... Here you can configure<br/>the Twitter Filter extension.'
+    welcome_tip: 'Pssst... Here you can configure<br/>the Open Tweet Filter extension.'
   };
 
   this.messages.es = {
@@ -427,7 +427,7 @@
     clear: 'Limpiar',
     close: 'Cerrar',
     filter: 'Filtro',
-    welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Twitter Filter.'
+    welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Open Tweet Filter.'
   };
 
   ViewModel = (function() {

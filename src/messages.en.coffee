@@ -20,4 +20,4 @@
   clear: 'Clear'
   close: 'Close'
   filter: 'Filter'
-  welcome_tip: 'Pssst... Here you can configure<br/>the Twitter Filter extension.'
+  welcome_tip: 'Pssst... Here you can configure<br/>the Open Tweet Filter extension.'

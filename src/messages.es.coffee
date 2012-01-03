@@ -20,4 +20,4 @@
   clear: 'Limpiar'
   close: 'Cerrar'
   filter: 'Filtro'
-  welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Twitter Filter.'
+  welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Open Tweet Filter.'
