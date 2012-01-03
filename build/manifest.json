@@ -1,6 +1,6 @@
 {
   "name": "Open Tweet Filter",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "__MSG_description__",
   "update_url":"http://clients2.google.com/service/update2/crx",
   "content_scripts": [ {

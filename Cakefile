@@ -40,10 +40,10 @@ build = ->
           return logerr err if err
           console.log 'Built.\n'
 
-task 'build', 'Build single application file from source files', ->
+task 'build', 'Build single application file from source files.', ->
   build()
 
-task 'watch', 'Watch changes and build.', ->
+task 'watch', 'Watch source files changes and build.', ->
   build()
   @event = null
   @filename = null
@@ -58,7 +58,7 @@ task 'watch', 'Watch changes and build.', ->
         @event = null
         @filename = null
 
-task 'package', 'Create or update an extension package', ->
+task 'package:crx', 'Create or update a Chrome extension package.', ->
   args = ["--pack-extension=#{__dirname}/build"]
   pemFile = "#{__dirname}/build.pem";
   if path.existsSync pemFile
@@ -66,25 +66,24 @@ task 'package', 'Create or update an extension package', ->
   execFile process.env.LOCALAPPDATA + '/Google/Chrome/Application/chrome.exe', args, (err, stdout, stderr) ->
     return logerr err if err
     console.log stdout + stderr
-
-task 'package:webstore', 'Update an extension package for Google Web Store', ->
-  fs.unlink 'upload_to_webstore.zip', (err) ->
-    fs.copy 'build.pem', 'build/key.pem', true, (err) ->
+  
+task 'package:cws', 'Update an extension package for Chrome Web Store.', ->
+  manifestContent = fs.readFileSync "#{__dirname}/build/manifest.json", 'utf8'
+  manifest = JSON.parse manifestContent
+  zipFile = "package-cws-#{manifest.version}.zip"
+  fs.unlink zipFile, (err) ->
+    exec "cd build/ & zip -r9 ../#{zipFile} *", (err, stdout, stderr) ->
       return logerr err if err
-      exec "cd build/ & zip -r9 ../upload_to_webstore.zip *", (err, stdout, stderr) ->
-        return logerr err if err
-        fs.unlink 'build/key.pem', (err) ->
-          return logerr err if err
-        console.log stdout + stderr
+      console.log stdout + stderr
 
 task 'package:clear', 'Remove all package related files.', ->
-  handler = (err) -> 
-    return logerr err if err and err.code isnt 'ENOENT' # ENOENT: No such file or directory
-  
-  fs.unlink 'build.crx', handler
-  fs.unlink 'build.pem', handler
-  fs.unlink 'build/key.pem', handler
-  fs.unlink 'upload_to_webstore.zip', handler
+  walk
+    dir: "#{__dirname}"
+    recursive: false
+    matcher: (file) -> 
+      file.match(/\/package-cws-(.+)\.zip$/) or file.match(/\.crx$/) or file.match(/\.pem$/)
+    action: (file) -> fs.unlink file, (err) -> 
+      return logerr err if err and err.code isnt 'ENOENT' # ENOENT: No such file or directory
 
 # Utils
 
@@ -105,3 +104,20 @@ fs.copy = (src, dst, ow, cb) ->
       ist = fs.createReadStream src
       ost = fs.createWriteStream dst
       util.pump ist, ost, cb
+ 
+# Based on Rosetta Code
+walk = (options) ->
+  dir = options.dir
+  f_match = options.matcher
+  f_visit = options.action
+  recursive = options.recursive ? true
+  _walk = (dir) ->
+    fns = fs.readdirSync dir
+    for fn in fns
+      fn = dir + '/' + fn
+      if f_match fn
+        f_visit fn
+      if recursive and fs.statSync(fn).isDirectory()
+        _walk fn
+  _walk(dir)
+ 
