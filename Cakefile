@@ -10,13 +10,15 @@ appFiles  = [
   'messages.en'
   'messages.es'
   'ViewModel'
-  'PhoenixDialogView'
-  'PhoenixT1DialogView'
-  'PhoenixReportView'
-  'PhoenixT1ReportView'
-  'Provider'
-  'PhoenixProvider'
-  'PhoenixT1Provider'
+  'views/DialogPhoenixView'
+  'views/DialogPhoenixT1View'
+  'views/ReportPhoenixView'
+  'views/ReportPhoenixT1View'
+  'providers/Provider'
+  'providers/PhoenixProvider'
+  'providers/PhoenixT1Provider'
+  'providers/FilterPhoenixProvider'
+  'providers/FilterPhoenixT1Provider'
   'Extension'
 ]
 
@@ -45,15 +47,16 @@ task 'watch', 'Watch changes and build.', ->
   build()
   @event = null
   @filename = null
-  fs.watch 'src/', (event, filename) =>
-    if event != @event or filename != @filename
-      console.log event + ' ' + filename
-    @event = event
-    @filename = filename
-    throttle 100, =>
-      build()
-      @event = null
-      @filename = null
+  for file, index in appFiles then do (file, index) ->
+    fs.watch "src/#{file}.coffee", (event, filename) =>
+      if event != @event or filename != @filename
+        console.log event + ' ' + filename
+      @event = event
+      @filename = filename
+      throttle 100, =>
+        build()
+        @event = null
+        @filename = null
 
 task 'package', 'Create or update an extension package', ->
   args = ["--pack-extension=#{__dirname}/build"]

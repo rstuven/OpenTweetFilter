@@ -1,5 +1,5 @@
 # 
-class PhoenixDialogView
+class DialogPhoenixView
 
   render: (viewModel) ->
     @renderButton viewModel

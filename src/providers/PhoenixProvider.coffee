@@ -1,8 +1,5 @@
-#
+# Twitter DOM provider for Phoenix UI.
 class PhoenixProvider extends Provider
-
-  dialogView: new PhoenixDialogView
-  reportView: new PhoenixReportView
 
   isActive: ->
     not $('body').hasClass 't1'
@@ -12,16 +9,6 @@ class PhoenixProvider extends Provider
 
   screenUser: ->
     @normalizeUser $('.screen-name.pill').html()
-
-  ignorablePages: [
-    '#!/retweets'
-    '#!/retweeted_of_mine'
-    '#!/messages'
-  ]
-
-  filterCurrentPage: ->
-    isIgnorablePage = location.hash in @ignorablePages
-    not (@inMyProfilePage() or isIgnorablePage)
 
   tweets: ->
     $('div.stream-item[data-item-type="tweet"], div.stream-item.js-activity-favorite, div.stream-item.js-activity-retweet')
@@ -37,9 +24,6 @@ class PhoenixProvider extends Provider
 
   tweetRetweeter: (el) ->
     @normalizeUser $(el).find('.user').text()
-
-  renderDialog: (viewModel) ->
-    @dialogView.render viewModel
   
   onNewTweets: (callback) ->
     $(document).on 'DOMNodeInserted', '.stream .stream-items', =>

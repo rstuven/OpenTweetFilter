@@ -1,5 +1,5 @@
 # 
-class PhoenixT1ReportView extends PhoenixReportView
+class ReportPhoenixT1View extends ReportPhoenixView
 
   template: ->
     div '.filter-report-component.component', ->

@@ -1,5 +1,5 @@
 #
-class PhoenixT1DialogView extends PhoenixDialogView
+class DialogPhoenixT1View extends DialogPhoenixView
   
   renderButton:  (viewModel) ->
     buttonTemplate = ->

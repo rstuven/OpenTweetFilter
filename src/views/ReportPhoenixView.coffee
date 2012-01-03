@@ -1,5 +1,5 @@
 # 
-class PhoenixReportView
+class ReportPhoenixView
 
   template: ->
     div '.filter-report-component.component', ->

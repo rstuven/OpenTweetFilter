@@ -1,4 +1,4 @@
-# Twitter DOM provider
+# Twitter DOM provider.
 class Provider
 
   inMyProfilePage: ->

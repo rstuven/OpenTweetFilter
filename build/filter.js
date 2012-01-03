@@ -1,5 +1,5 @@
 (function() {
-  var Extension, PhoenixDialogView, PhoenixProvider, PhoenixReportView, PhoenixT1DialogView, PhoenixT1Provider, PhoenixT1ReportView, Provider, ViewModel, cache, coffee, coffeekup, coffeescript_helpers, elements, merge_elements, skeleton;
+  var DialogPhoenixT1View, DialogPhoenixView, Extension, FilterPhoenixProvider, FilterPhoenixT1Provider, PhoenixProvider, PhoenixT1Provider, Provider, ReportPhoenixT1View, ReportPhoenixView, ViewModel, cache, coffee, coffeekup, coffeescript_helpers, elements, merge_elements, skeleton;
   var __slice = Array.prototype.slice, __hasProp = Object.prototype.hasOwnProperty, __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; }, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   if (typeof window !== "undefined" && window !== null) {
@@ -522,17 +522,17 @@
 
   })();
 
-  PhoenixDialogView = (function() {
+  DialogPhoenixView = (function() {
 
-    function PhoenixDialogView() {}
+    function DialogPhoenixView() {}
 
-    PhoenixDialogView.prototype.render = function(viewModel) {
+    DialogPhoenixView.prototype.render = function(viewModel) {
       this.renderButton(viewModel);
       this.renderDialog(viewModel);
       return this.showWelcomeTip(viewModel);
     };
 
-    PhoenixDialogView.prototype.renderButton = function(viewModel) {
+    DialogPhoenixView.prototype.renderButton = function(viewModel) {
       var buttonTemplate;
       buttonTemplate = function() {
         return ul(function() {
@@ -551,7 +551,7 @@
       return ko.applyBindings(viewModel, $('#filter-button')[0]);
     };
 
-    PhoenixDialogView.prototype.dialogTemplate = function() {
+    DialogPhoenixView.prototype.dialogTemplate = function() {
       return div('#filter-dialog-container.twttr-dialog-container.draggable', function() {
         return div('#filter-dialog.twttr-dialog', function() {
           div('.twttr-dialog-header', function() {
@@ -615,7 +615,7 @@
       });
     };
 
-    PhoenixDialogView.prototype.renderDialog = function(viewModel) {
+    DialogPhoenixView.prototype.renderDialog = function(viewModel) {
       var dialogHtml;
       var _this = this;
       dialogHtml = CoffeeKup.render(this.dialogTemplate);
@@ -627,7 +627,7 @@
       });
     };
 
-    PhoenixDialogView.prototype.toggleVisible = (function() {
+    DialogPhoenixView.prototype.toggleVisible = (function() {
       var container, overlay;
       container = null;
       overlay = $('<div class="twttr-dialog-overlay"></div>').appendTo($('body'));
@@ -669,7 +669,7 @@
       };
     })();
 
-    PhoenixDialogView.prototype.showWelcomeTip = function(viewModel) {
+    DialogPhoenixView.prototype.showWelcomeTip = function(viewModel) {
       var _this = this;
       if (viewModel.showWelcomeTip()) {
         return setTimeout(function() {
@@ -689,19 +689,19 @@
       }
     };
 
-    return PhoenixDialogView;
+    return DialogPhoenixView;
 
   })();
 
-  PhoenixT1DialogView = (function() {
+  DialogPhoenixT1View = (function() {
 
-    __extends(PhoenixT1DialogView, PhoenixDialogView);
+    __extends(DialogPhoenixT1View, DialogPhoenixView);
 
-    function PhoenixT1DialogView() {
-      PhoenixT1DialogView.__super__.constructor.apply(this, arguments);
+    function DialogPhoenixT1View() {
+      DialogPhoenixT1View.__super__.constructor.apply(this, arguments);
     }
 
-    PhoenixT1DialogView.prototype.renderButton = function(viewModel) {
+    DialogPhoenixT1View.prototype.renderButton = function(viewModel) {
       var buttonTemplate;
       buttonTemplate = function() {
         return div('#filter-button.nav.filter', function() {
@@ -726,7 +726,7 @@
       return ko.applyBindings(viewModel, $('#filter-button')[0]);
     };
 
-    PhoenixT1DialogView.prototype.renderDialog = function(viewModel) {
+    DialogPhoenixT1View.prototype.renderDialog = function(viewModel) {
       var dialogHtml;
       var _this = this;
       dialogHtml = CoffeeKup.render(this.dialogTemplate);
@@ -738,15 +738,15 @@
       });
     };
 
-    return PhoenixT1DialogView;
+    return DialogPhoenixT1View;
 
   })();
 
-  PhoenixReportView = (function() {
+  ReportPhoenixView = (function() {
 
-    function PhoenixReportView() {}
+    function ReportPhoenixView() {}
 
-    PhoenixReportView.prototype.template = function() {
+    ReportPhoenixView.prototype.template = function() {
       return div('.filter-report-component.component', function() {
         div(function() {
           h2(function() {
@@ -770,7 +770,7 @@
       });
     };
 
-    PhoenixReportView.prototype.render = function(apply, terms, users, hiddenCount, hiddenUsers) {
+    ReportPhoenixView.prototype.render = function(apply, terms, users, hiddenCount, hiddenUsers) {
       var filteringByEndMessage, filters, filtersMessage, html, items, src, title;
       $('.filter-report-component').remove();
       if (!(apply && (terms || users))) return;
@@ -819,19 +819,19 @@
       return $('.dashboard').find('.component:not(:empty):eq(0)').after(html);
     };
 
-    return PhoenixReportView;
+    return ReportPhoenixView;
 
   })();
 
-  PhoenixT1ReportView = (function() {
+  ReportPhoenixT1View = (function() {
 
-    __extends(PhoenixT1ReportView, PhoenixReportView);
+    __extends(ReportPhoenixT1View, ReportPhoenixView);
 
-    function PhoenixT1ReportView() {
-      PhoenixT1ReportView.__super__.constructor.apply(this, arguments);
+    function ReportPhoenixT1View() {
+      ReportPhoenixT1View.__super__.constructor.apply(this, arguments);
     }
 
-    PhoenixT1ReportView.prototype.template = function() {
+    ReportPhoenixT1View.prototype.template = function() {
       return div('.filter-report-component.component', function() {
         return div('.module', function() {
           return div('.flex-module', function() {
@@ -860,7 +860,7 @@
       });
     };
 
-    return PhoenixT1ReportView;
+    return ReportPhoenixT1View;
 
   })();
 
@@ -904,10 +904,6 @@
       PhoenixProvider.__super__.constructor.apply(this, arguments);
     }
 
-    PhoenixProvider.prototype.dialogView = new PhoenixDialogView;
-
-    PhoenixProvider.prototype.reportView = new PhoenixReportView;
-
     PhoenixProvider.prototype.isActive = function() {
       return !$('body').hasClass('t1');
     };
@@ -918,14 +914,6 @@
 
     PhoenixProvider.prototype.screenUser = function() {
       return this.normalizeUser($('.screen-name.pill').html());
-    };
-
-    PhoenixProvider.prototype.ignorablePages = ['#!/retweets', '#!/retweeted_of_mine', '#!/messages'];
-
-    PhoenixProvider.prototype.filterCurrentPage = function() {
-      var isIgnorablePage, _ref;
-      isIgnorablePage = (_ref = location.hash, __indexOf.call(this.ignorablePages, _ref) >= 0);
-      return !(this.inMyProfilePage() || isIgnorablePage);
     };
 
     PhoenixProvider.prototype.tweets = function() {
@@ -946,10 +934,6 @@
 
     PhoenixProvider.prototype.tweetRetweeter = function(el) {
       return this.normalizeUser($(el).find('.user').text());
-    };
-
-    PhoenixProvider.prototype.renderDialog = function(viewModel) {
-      return this.dialogView.render(viewModel);
     };
 
     PhoenixProvider.prototype.onNewTweets = function(callback) {
@@ -975,12 +959,6 @@
     function PhoenixT1Provider() {
       PhoenixT1Provider.__super__.constructor.apply(this, arguments);
     }
-
-    PhoenixT1Provider.prototype.dialogView = new PhoenixT1DialogView;
-
-    PhoenixT1Provider.prototype.reportView = new PhoenixT1ReportView;
-
-    PhoenixT1Provider.prototype.ignorablePages = ['#!/i/connect', '#!/i/discover', '#!/who_to_follow/suggestions', '#!/who_to_follow/import', '#!/who_to_follow/interests'];
 
     PhoenixT1Provider.prototype.isActive = function() {
       return $('body').hasClass('t1');
@@ -1016,15 +994,63 @@
 
   })();
 
+  FilterPhoenixProvider = (function() {
+
+    __extends(FilterPhoenixProvider, PhoenixProvider);
+
+    function FilterPhoenixProvider() {
+      FilterPhoenixProvider.__super__.constructor.apply(this, arguments);
+    }
+
+    FilterPhoenixProvider.prototype.dialogView = new DialogPhoenixView;
+
+    FilterPhoenixProvider.prototype.reportView = new ReportPhoenixView;
+
+    FilterPhoenixProvider.prototype.filterCurrentPage = function() {
+      var isIgnorablePage, _ref;
+      isIgnorablePage = (_ref = location.hash, __indexOf.call(this.ignorablePages, _ref) >= 0);
+      return !(this.inMyProfilePage() || isIgnorablePage);
+    };
+
+    FilterPhoenixProvider.prototype.ignorablePages = ['#!/retweets', '#!/retweeted_of_mine', '#!/messages'];
+
+    return FilterPhoenixProvider;
+
+  })();
+
+  FilterPhoenixT1Provider = (function() {
+
+    __extends(FilterPhoenixT1Provider, PhoenixT1Provider);
+
+    function FilterPhoenixT1Provider() {
+      FilterPhoenixT1Provider.__super__.constructor.apply(this, arguments);
+    }
+
+    FilterPhoenixT1Provider.prototype.dialogView = new DialogPhoenixT1View;
+
+    FilterPhoenixT1Provider.prototype.reportView = new ReportPhoenixT1View;
+
+    FilterPhoenixT1Provider.prototype.filterCurrentPage = function() {
+      var isIgnorablePage, _ref;
+      isIgnorablePage = (_ref = location.hash, __indexOf.call(this.ignorablePages, _ref) >= 0);
+      return !(this.inMyProfilePage() || isIgnorablePage);
+    };
+
+    FilterPhoenixT1Provider.prototype.ignorablePages = ['#!/i/connect', '#!/i/discover', '#!/who_to_follow/suggestions', '#!/who_to_follow/import', '#!/who_to_follow/interests'];
+
+    return FilterPhoenixT1Provider;
+
+  })();
+
   Extension = (function() {
 
     Extension.prototype.viewModel = new ViewModel;
 
-    Extension.prototype.provider = Provider.getActive(PhoenixProvider, PhoenixT1Provider);
+    Extension.prototype.provider = Provider.getActive(FilterPhoenixProvider, FilterPhoenixT1Provider);
 
     function Extension() {
       var _this = this;
-      this.provider.renderDialog(this.viewModel);
+      this.provider.dialogView.render(this.viewModel);
       $(window).on('hashchange', function() {
         return _this.applyFilter();
       });

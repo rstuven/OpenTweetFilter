@@ -1,16 +1,5 @@
-#
+# Twitter DOM provider for Phoenix T1 UI.
 class PhoenixT1Provider extends PhoenixProvider
-
-  dialogView: new PhoenixT1DialogView
-  reportView: new PhoenixT1ReportView
-
-  ignorablePages: [
-    '#!/i/connect'
-    '#!/i/discover'
-    '#!/who_to_follow/suggestions'
-    '#!/who_to_follow/import'
-    '#!/who_to_follow/interests'
-  ]
 
   isActive: ->
     $('body').hasClass 't1'

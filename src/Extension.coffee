@@ -2,11 +2,11 @@
 class Extension
 
   viewModel: new ViewModel
-  provider: Provider.getActive PhoenixProvider, PhoenixT1Provider
+  provider: Provider.getActive FilterPhoenixProvider, FilterPhoenixT1Provider
   
   constructor: ->
     
-    @provider.renderDialog @viewModel
+    @provider.dialogView.render @viewModel
     
     # Apply filter on changes
     $(window).on 'hashchange',         => @applyFilter()
