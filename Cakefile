@@ -33,7 +33,7 @@ build = ->
   link = ->
     fs.writeFile 'build/filter.coffee', appContents.join('\n\n'), 'utf8', (err) ->
       return logerr err if err
-      execFile 'C:/node/node_modules/.bin/coffee.cmd', ['--compile',  "#{__dirname}/build/filter.coffee"], (err, stdout, stderr) ->
+      exec "coffee --compile #{__dirname}/build/filter.coffee", (err, stdout, stderr) ->
         return logerr err if err
         console.log stdout + stderr
         fs.unlink 'build/filter.coffee', (err) ->
@@ -58,7 +58,7 @@ task 'watch', 'Watch source files changes and build.', ->
         @event = null
         @filename = null
 
-task 'package:crx', 'Create or update a Chrome extension package.', ->
+task 'pack:crx', 'Create or update a Chrome extension package.', ->
   args = ["--pack-extension=#{__dirname}/build"]
   pemFile = "#{__dirname}/build.pem";
   if path.existsSync pemFile
@@ -67,7 +67,7 @@ task 'package:crx', 'Create or update a Chrome extension package.', ->
     return logerr err if err
     console.log stdout + stderr
   
-task 'package:cws', 'Update an extension package for Chrome Web Store.', ->
+task 'pack:cws', 'Update an extension package for Chrome Web Store.', ->
   manifestContent = fs.readFileSync "#{__dirname}/build/manifest.json", 'utf8'
   manifest = JSON.parse manifestContent
   zipFile = "package-cws-#{manifest.version}.zip"
@@ -76,7 +76,7 @@ task 'package:cws', 'Update an extension package for Chrome Web Store.', ->
       return logerr err if err
       console.log stdout + stderr
 
-task 'package:clear', 'Remove all package related files.', ->
+task 'pack:clear', 'Remove all package related files.', ->
   walk
     dir: "#{__dirname}"
     recursive: false
