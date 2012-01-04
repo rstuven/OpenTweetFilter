@@ -34,11 +34,20 @@ class DialogViewModel
     @usersExcludeText = ko.computed => if @usersExclude() then messages.get('excluding') else messages.get('including')
 
   clear: ->
-    @termsList    ''
-    @termsExclude true
-    @usersList    ''
-    @usersExclude true
-    @enabled      true
+    @termsList      ''
+    @termsExclude   true
+    @usersList      ''
+    @usersExclude   true
+    @enabled        true
+    @showReportView true
+
+  reload: ->
+    @termsList      .reload()
+    @termsExclude   .reload()
+    @usersList      .reload()
+    @usersExclude   .reload()
+    @enabled        .reload()
+    @showReportView .reload()
 
   toggle: (attr) ->
     @[attr] !@[attr]()

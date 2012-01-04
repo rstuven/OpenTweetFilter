@@ -86,7 +86,10 @@ class DialogPhoenixView
         container.find('.filter-terms-list').tipsy gravity: 'w', trigger: 'focus', html: true, fallback: messages.get('filter_terms_list_title')
         container.find('.filter-users-list').tipsy gravity: 'w', trigger: 'focus', html: true, fallback: messages.get('filter_users_list_title')
         
+        # Reload and bind
+        viewModel.reload()
         ko.applyBindings viewModel, container[0]
+
       else
         container.find('.filter-terms-list').tipsy 'hide'
         container.find('.filter-users-list').tipsy 'hide'

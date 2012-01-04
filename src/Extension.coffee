@@ -18,6 +18,7 @@ class Extension
     @dialogViewModel.usersList     .subscribe => @applyFilter()
     @dialogViewModel.usersExclude  .subscribe => @applyFilter()
     @dialogViewModel.enabled       .subscribe => @applyFilter()
+    @dialogViewModel.showReportView.subscribe => @applyFilter()
     
     # Apply filter right now
     @applyFilter()
@@ -25,6 +26,8 @@ class Extension
   # The extension's heart
   applyFilter: -> @throttle 10, =>
 
+    @dialogViewModel.reload()
+  
     apply = @dialogViewModel.enabled() and @provider.filterCurrentPage()
 
     if apply

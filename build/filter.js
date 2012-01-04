@@ -495,7 +495,17 @@
       this.termsExclude(true);
       this.usersList('');
       this.usersExclude(true);
-      return this.enabled(true);
+      this.enabled(true);
+      return this.showReportView(true);
+    };
+
+    DialogViewModel.prototype.reload = function() {
+      this.termsList.reload();
+      this.termsExclude.reload();
+      this.usersList.reload();
+      this.usersExclude.reload();
+      this.enabled.reload();
+      return this.showReportView.reload();
     };
 
     DialogViewModel.prototype.toggle = function(attr) {
@@ -732,6 +742,7 @@
             html: true,
             fallback: messages.get('filter_users_list_title')
           });
+          viewModel.reload();
           return ko.applyBindings(viewModel, container[0]);
         } else {
           container.find('.filter-terms-list').tipsy('hide');
@@ -1135,6 +1146,9 @@
       this.dialogViewModel.enabled.subscribe(function() {
         return _this.applyFilter();
       });
+      this.dialogViewModel.showReportView.subscribe(function() {
+        return _this.applyFilter();
+      });
       this.applyFilter();
     }
 
@@ -1142,6 +1156,7 @@
       var _this = this;
       return this.throttle(10, function() {
         var apply, hiddenCount, hiddenUsers, termsPattern, usersPattern;
+        _this.dialogViewModel.reload();
         apply = _this.dialogViewModel.enabled() && _this.provider.filterCurrentPage();
         if (apply) {
           termsPattern = _this.filterPattern(_this.dialogViewModel.termsList(), false);
