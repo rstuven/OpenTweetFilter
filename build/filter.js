@@ -714,7 +714,7 @@
           container = $(dialogHtml).appendTo($(options.appendTo));
           if (options.center) {
             dialog = $('#filter-dialog');
-            dialog.css('position', 'absolute').css('top', (($(window).height() - dialog.outerHeight()) / 2) + $(window).scrollTop() + 'px').css('left', (($(window).width() - dialog.outerWidth()) / 2) + $(window).scrollLeft() + 'px');
+            dialog.css('position', 'absolute').css('top', (($(window).height() - dialog.outerHeight()) / 2) + 'px').css('left', (($(window).width() - dialog.outerWidth()) / 2) + 'px');
           }
           container.draggable();
           container.on('keydown keypress', function(event) {
