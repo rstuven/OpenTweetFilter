@@ -72,6 +72,7 @@ task 'pack:cws', 'Update an extension package for Chrome Web Store.', ->
   manifestContent = fs.readFileSync "#{__dirname}/build/manifest.json", 'utf8'
   manifest = JSON.parse manifestContent
   zipFile = "package-cws-#{manifest.version}.zip"
+  console.log "\nGenerating #{zipFile}...\n"
   fs.unlink zipFile, (err) ->
     exec "cd build/ & zip -r9 ../#{zipFile} *", (err, stdout, stderr) ->
       return logerr err if err
