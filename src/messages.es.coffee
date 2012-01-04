@@ -6,7 +6,7 @@
   including: 'Incluyendo'
   tweets_terms: 'tweets con términos'
   tweets_users: 'tweets de usuarios'
-  filter_terms_list_title: 'Términos separados por comas. Por ej.: twitcam, jijiji'
+  filter_terms_list_title: 'Términos separados por comas.<br/>Por ej.: twitcam, jijiji'
   filter_users_list_title: 'Usuarios separados por comas.<br/>Por ej.: tuiterowsky, robocopano'
   show_report_view: 'Mostrar resumen de tweets filtrados.'
   filtering_by_start: 'Ocultando'
