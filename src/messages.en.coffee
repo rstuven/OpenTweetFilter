@@ -1,5 +1,4 @@
 @messages.en =
-  filter_button_title: 'Manage tweets filter'
   filter_dialog_title: 'Your filters'
   enable: 'Enable'
   disable: 'Disable'
@@ -14,11 +13,9 @@
   filtering_by_end: 'tweets by filter of'
   filtering_by_end_singular: 'tweet by filter of'
   users_with_hidden_tweets: 'Users with hidden tweets'
-  your_lists: 'Your lists:'
   terms: 'terms'
   people: 'people'
   and: 'and'
   clear: 'Clear'
-  close: 'Close'
   filter: 'Filter'
   welcome_tip: 'Pssst... Here you can configure<br/>the Open Tweet Filter extension.'
