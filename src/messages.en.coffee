@@ -9,6 +9,7 @@
   tweets_users: 'tweets from people'
   filter_terms_list_title: 'Terms separated by commas,<br/>eg.: twitcam, #fail'
   filter_users_list_title: 'Usernames separated by commas, eg.: twitterowsky, robocopano'
+  show_report_view: 'Show report of filtered tweets.'
   filtering_by_start: 'Hiding'
   filtering_by_end: 'tweets by filter of'
   filtering_by_end_singular: 'tweet by filter of'

@@ -42,6 +42,11 @@ class DialogPhoenixView
                 input '.filter-users-list', 
                   'type': 'text'
                   'data-bind' : "value: usersList, valueUpdate: ['change', 'afterkeydown']"
+                label '.checkbox', ->
+                  input
+                    'type': 'checkbox'
+                    'data-bind' : "checked: showReportView"
+                  span 'data-bind': 'click: toggleShowReportView', -> messages.get('show_report_view')
           div '.twttr-dialog-footer', ->
             div '.filter-dialog-footer-right', ->
               a '.btn', 

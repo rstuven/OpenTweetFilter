@@ -391,6 +391,7 @@
     tweets_users: 'tweets from people',
     filter_terms_list_title: 'Terms separated by commas,<br/>eg.: twitcam, #fail',
     filter_users_list_title: 'Usernames separated by commas, eg.: twitterowsky, robocopano',
+    show_report_view: 'Show report of filtered tweets.',
     filtering_by_start: 'Hiding',
     filtering_by_end: 'tweets by filter of',
     filtering_by_end_singular: 'tweet by filter of',
@@ -416,6 +417,7 @@
     tweets_users: 'tweets de usuarios',
     filter_terms_list_title: 'Términos separados por comas. Por ej.: twitcam, jijiji',
     filter_users_list_title: 'Usuarios separados por comas.<br/>Por ej.: tuiterowsky, robocopano',
+    show_report_view: 'Mostrar resumen de tweets filtrados.',
     filtering_by_start: 'Ocultando',
     filtering_by_end: 'tweets por filtro de',
     filtering_by_end_singular: 'tweet por filtro de',
@@ -520,6 +522,10 @@
 
     DialogViewModel.prototype.toggleUsersExclude = function() {
       return this.toggle('usersExclude');
+    };
+
+    DialogViewModel.prototype.toggleShowReportView = function() {
+      return this.toggle('showReportView');
     };
 
     return DialogViewModel;
@@ -653,9 +659,20 @@
                   div('.filter-list-label', function() {
                     return '&nbsp;' + messages.get('tweets_users') + ':';
                   });
-                  return input('.filter-users-list', {
+                  input('.filter-users-list', {
                     'type': 'text',
                     'data-bind': "value: usersList, valueUpdate: ['change', 'afterkeydown']"
+                  });
+                  return label('.checkbox', function() {
+                    input({
+                      'type': 'checkbox',
+                      'data-bind': "checked: showReportView"
+                    });
+                    return span({
+                      'data-bind': 'click: toggleShowReportView'
+                    }, function() {
+                      return messages.get('show_report_view');
+                    });
                   });
                 });
               });

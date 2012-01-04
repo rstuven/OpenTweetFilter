@@ -59,6 +59,16 @@
     padding: 4px 2px;
 }
 
+#filter-dialog .checkbox {
+  display: block;
+  margin-top: 15px;
+  margin-left: 3px;
+}
+
+#filter-dialog .checkbox input {
+  margin-right: 5px;
+}
+
 .btn.filter-list-label {
   float:left;
   margin-bottom: 2px;

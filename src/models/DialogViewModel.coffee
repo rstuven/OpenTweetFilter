@@ -43,7 +43,8 @@ class DialogViewModel
   toggle: (attr) ->
     @[attr] !@[attr]()
   
-  toggleEnabled:      -> @toggle 'enabled'
-  toggleVisible:      -> @toggle 'visible'
-  toggleTermsExclude: -> @toggle 'termsExclude'
-  toggleUsersExclude: -> @toggle 'usersExclude'
+  toggleEnabled:        -> @toggle 'enabled'
+  toggleVisible:        -> @toggle 'visible'
+  toggleTermsExclude:   -> @toggle 'termsExclude'
+  toggleUsersExclude:   -> @toggle 'usersExclude'
+  toggleShowReportView: -> @toggle 'showReportView'
