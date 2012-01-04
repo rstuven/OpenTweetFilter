@@ -1,21 +1,23 @@
 # 
 class Extension
 
-  viewModel: new ViewModel
   provider: Provider.getActive FilterPhoenixProvider, FilterPhoenixT1Provider
   
   constructor: ->
-    
-    @provider.dialogView.render @viewModel
+
+    @dialogViewModel = new DialogViewModel
+    @reportViewModel = new ReportViewModel @dialogViewModel
+  
+    @provider.dialogView.render @dialogViewModel
     
     # Apply filter on changes
-    $(window).on 'hashchange',         => @applyFilter()
-    @provider.onNewTweets              => @applyFilter()
-    @viewModel.termsList    .subscribe => @applyFilter()
-    @viewModel.termsExclude .subscribe => @applyFilter()
-    @viewModel.usersList    .subscribe => @applyFilter()
-    @viewModel.usersExclude .subscribe => @applyFilter()
-    @viewModel.enabled      .subscribe => @applyFilter()
+    $(window).on 'hashchange', => setTimeout (=> @applyFilter()), 500
+    @provider.onNewTweets                     => @applyFilter()
+    @dialogViewModel.termsList     .subscribe => @applyFilter()
+    @dialogViewModel.termsExclude  .subscribe => @applyFilter()
+    @dialogViewModel.usersList     .subscribe => @applyFilter()
+    @dialogViewModel.usersExclude  .subscribe => @applyFilter()
+    @dialogViewModel.enabled       .subscribe => @applyFilter()
     
     # Apply filter right now
     @applyFilter()
@@ -23,11 +25,11 @@ class Extension
   # The extension's heart
   applyFilter: -> @throttle 10, =>
 
-    apply = @viewModel.enabled() and @provider.filterCurrentPage()
+    apply = @dialogViewModel.enabled() and @provider.filterCurrentPage()
 
     if apply
-      termsPattern = @filterPattern @viewModel.termsList(), false
-      usersPattern = @filterPattern @viewModel.usersList(), true
+      termsPattern = @filterPattern @dialogViewModel.termsList(), false
+      usersPattern = @filterPattern @dialogViewModel.usersList(), true
 
     hiddenCount = 0
     hiddenUsers = {}
@@ -44,13 +46,13 @@ class Extension
         termsRegExp = @filterRegExp termsPattern
         if termsRegExp?
           foundTermsMatches = termsRegExp.test @provider.tweetText(el)
-          termsMatch = @viewModel.termsExclude() == foundTermsMatches
+          termsMatch = @dialogViewModel.termsExclude() == foundTermsMatches
 
         # Users (author or retweeter)
         usersRegExp = @filterRegExp usersPattern
         if usersRegExp?
           foundUserMatches = usersRegExp.test(tweetAuthor) or usersRegExp.test(@provider.tweetRetweeter(el))
-          usersMatch = @viewModel.usersExclude() == foundUserMatches
+          usersMatch = @dialogViewModel.usersExclude() == foundUserMatches
 
       if termsMatch or usersMatch
         $(el).hide()
@@ -60,9 +62,17 @@ class Extension
       else 
         $(el).show()
     
-    # Update report
+    # Update report view model
+    @reportViewModel
+      .applied(apply)
+      .hasTerms(termsPattern?)
+      .hasUsers(usersPattern?)
+      .hiddenCount(hiddenCount)
+      .hiddenUsers(hiddenUsers)
+
+    # Try to render in a second
     @throttle 1000, =>
-      @provider.reportView.render apply, termsPattern?, usersPattern?, hiddenCount, hiddenUsers
+      @provider.reportView.render @reportViewModel
 
   # Cancelable timeout to avoid too many consecutive calls
   throttle: do ->

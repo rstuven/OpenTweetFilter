@@ -2,41 +2,40 @@
 class ReportPhoenixView
 
   template: ->
-    div '.filter-report-component.component', ->
+    div '.filter-report-component.component', 'data-bind': 'visible: visible', ->
       div ->
-        h2 ->
-          text messages.get('filtering_by_start')
-          span '.user-stat-link', -> "#{hiddenCount} "
-          text "#{filteringByEndMessage} #{filtersMessage}."
-        div ->
-          for item in items
-            tag.apply null, item
+        h2 headerTemplate
+        div bodyTemplate
       hr '.component-spacer'
 
-  render: (apply, terms, users, hiddenCount, hiddenUsers) ->
-
-    $('.filter-report-component').remove()
+  headerTemplate: ->
+    text messages.get('filtering_by_start')
+    text ' '
+    span '.user-stat-link', 'data-bind': 'text: hiddenCount'
+    text ' '
+    span 'data-bind': 'text: filteringByEndMessage'
+    text ' '
+    span 'data-bind': 'text: filtersMessage'
   
-    return unless apply and (terms or users)
-    
-    items = []
-    for title, src of hiddenUsers
-      if src
-        items.push ['img', {src, title, style: "margin-right:5px;", width: "24", height: "24"}]
-      else
-        items.push ['div', -> title + '&nbsp;&nbsp']
-    
-    if items.length != 0
-      items.unshift ['br', -> ]
-      items.unshift ['span', -> messages.get('users_with_hidden_tweets') + ':']
+  bodyTemplate: ->
+    span 'data-bind' : 'if: hasHiddenTweets', ->
+      span -> messages.get('users_with_hidden_tweets') + ':'
+      br ->
+    span 'data-bind' : 'foreach: usersPhotos', ->
+      img 'data-bind': 'attr: {src: $data.src, title: $data.title}', style: 'margin-right:5px;', width: 24, height: 24
+    span 'data-bind' : 'foreach: usersNames', ->
+      div 'data-bind': 'text: $data + "&nbsp;&nbsp"'
 
-    filters = []
-    filters.push messages.get('terms') if terms
-    filters.push messages.get('people') if users
-    filtersMessage = filters.join ' ' + messages.get('and') + ' '
+  render: (viewModel) ->
 
-    filteringByEndMessage = messages.get('filtering_by_end' + (if hiddenCount == 1 then '_singular' else ''))
+    $('.filter-report-component')
+      .each(-> ko.cleanNode this)
+      .remove()
     
-    html = CoffeeKup.render @template, locals: {hiddenCount, filtersMessage, filteringByEndMessage, items}
+    html = CoffeeKup.render @template, hardcode:
+      headerTemplate: @headerTemplate
+      bodyTemplate: @bodyTemplate
 
     $('.dashboard').find('.component:not(:empty):eq(0)').after(html)
+
+    ko.applyBindings viewModel, $('.filter-report-component')[0]

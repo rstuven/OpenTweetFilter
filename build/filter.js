@@ -1,5 +1,5 @@
 (function() {
-  var DialogPhoenixT1View, DialogPhoenixView, Extension, FilterPhoenixProvider, FilterPhoenixT1Provider, PhoenixProvider, PhoenixT1Provider, Provider, ReportPhoenixT1View, ReportPhoenixView, ViewModel, cache, coffee, coffeekup, coffeescript_helpers, elements, merge_elements, skeleton;
+  var DialogPhoenixT1View, DialogPhoenixView, DialogViewModel, Extension, FilterPhoenixProvider, FilterPhoenixT1Provider, PhoenixProvider, PhoenixT1Provider, Provider, ReportPhoenixT1View, ReportPhoenixView, ReportViewModel, cache, coffee, coffeekup, coffeescript_helpers, elements, merge_elements, skeleton;
   var __slice = Array.prototype.slice, __hasProp = Object.prototype.hasOwnProperty, __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; }, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   if (typeof window !== "undefined" && window !== null) {
@@ -430,16 +430,17 @@
     welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Open Tweet Filter.'
   };
 
-  ViewModel = (function() {
+  DialogViewModel = (function() {
 
-    function ViewModel() {
-      var enabled, showWelcomeTip, termsExclude, termsList, usersExclude, usersList;
+    function DialogViewModel() {
+      var enabled, showReportView, showWelcomeTip, termsExclude, termsList, usersExclude, usersList;
       var _this = this;
       termsList = localStorage.filter_terms_list || '';
       termsExclude = (localStorage.filter_terms_exclude || '1') === '1';
       usersList = localStorage.filter_from_list || '';
       usersExclude = (localStorage.filter_from_exclude || '1') === '1';
       enabled = (localStorage.filter_enabled || '1') === '1';
+      showReportView = true;
       showWelcomeTip = true;
       this.termsList = ko.observable(termsList, {
         persist: 'TwitterFilter.termsList'
@@ -455,6 +456,9 @@
       });
       this.enabled = ko.observable(enabled, {
         persist: 'TwitterFilter.enabled'
+      });
+      this.showReportView = ko.observable(showReportView, {
+        persist: 'TwitterFilter.showReportView'
       });
       this.showWelcomeTip = ko.observable(showWelcomeTip, {
         persist: 'TwitterFilter.showWelcomeTip'
@@ -490,7 +494,7 @@
       });
     }
 
-    ViewModel.prototype.clear = function() {
+    DialogViewModel.prototype.clear = function() {
       this.termsList('');
       this.termsExclude(true);
       this.usersList('');
@@ -498,27 +502,87 @@
       return this.enabled(true);
     };
 
-    ViewModel.prototype.toggle = function(attr) {
+    DialogViewModel.prototype.toggle = function(attr) {
       return this[attr](!this[attr]());
     };
 
-    ViewModel.prototype.toggleEnabled = function() {
+    DialogViewModel.prototype.toggleEnabled = function() {
       return this.toggle('enabled');
     };
 
-    ViewModel.prototype.toggleVisible = function() {
+    DialogViewModel.prototype.toggleVisible = function() {
       return this.toggle('visible');
     };
 
-    ViewModel.prototype.toggleTermsExclude = function() {
+    DialogViewModel.prototype.toggleTermsExclude = function() {
       return this.toggle('termsExclude');
     };
 
-    ViewModel.prototype.toggleUsersExclude = function() {
+    DialogViewModel.prototype.toggleUsersExclude = function() {
       return this.toggle('usersExclude');
     };
 
-    return ViewModel;
+    return DialogViewModel;
+
+  })();
+
+  ReportViewModel = (function() {
+
+    function ReportViewModel(dialogViewModel) {
+      var _this = this;
+      this.applied = ko.observable(false);
+      this.hasTerms = ko.observable(false);
+      this.hasUsers = ko.observable(false);
+      this.hiddenCount = ko.observable(false);
+      this.hiddenUsers = ko.observable(false);
+      this.visible = ko.computed(function() {
+        return dialogViewModel.showReportView() && _this.applied() && (_this.hasTerms() || _this.hasUsers());
+      });
+      this.hasHiddenTweets = ko.computed(function() {
+        return _this.hiddenCount() !== 0;
+      });
+      this.filteringByEndMessage = ko.computed(function() {
+        if (_this.hiddenCount() === 1) {
+          return messages.get('filtering_by_end_singular');
+        } else {
+          return messages.get('filtering_by_end');
+        }
+      });
+      this.filtersMessage = ko.computed(function() {
+        var filters;
+        filters = [];
+        if (_this.hasTerms()) filters.push(messages.get('terms'));
+        if (_this.hasUsers()) filters.push(messages.get('people'));
+        return filters.join(' ' + messages.get('and') + ' ');
+      });
+      this.usersPhotos = ko.computed(function() {
+        var src, title, _ref, _results;
+        _ref = _this.hiddenUsers();
+        _results = [];
+        for (title in _ref) {
+          src = _ref[title];
+          if (src) {
+            _results.push({
+              title: title,
+              src: src
+            });
+          }
+        }
+        return _results;
+      });
+      this.usersNames = ko.computed(function() {
+        var src, title, _ref, _results;
+        _ref = _this.hiddenUsers();
+        _results = [];
+        for (title in _ref) {
+          src = _ref[title];
+          if (!src) _results.push(title);
+        }
+        return _results;
+      });
+    }
+
+    return ReportViewModel;
 
   })();
 
@@ -747,76 +811,74 @@
     function ReportPhoenixView() {}
 
     ReportPhoenixView.prototype.template = function() {
-      return div('.filter-report-component.component', function() {
+      return div('.filter-report-component.component', {
+        'data-bind': 'visible: visible'
+      }, function() {
         div(function() {
-          h2(function() {
-            text(messages.get('filtering_by_start'));
-            span('.user-stat-link', function() {
-              return "" + hiddenCount + " ";
-            });
-            return text("" + filteringByEndMessage + " " + filtersMessage + ".");
-          });
-          return div(function() {
-            var item, _i, _len, _results;
-            _results = [];
-            for (_i = 0, _len = items.length; _i < _len; _i++) {
-              item = items[_i];
-              _results.push(tag.apply(null, item));
-            }
-            return _results;
-          });
+          h2(headerTemplate);
+          return div(bodyTemplate);
         });
         return hr('.component-spacer');
       });
     };
 
-    ReportPhoenixView.prototype.render = function(apply, terms, users, hiddenCount, hiddenUsers) {
-      var filteringByEndMessage, filters, filtersMessage, html, items, src, title;
-      $('.filter-report-component').remove();
-      if (!(apply && (terms || users))) return;
-      items = [];
-      for (title in hiddenUsers) {
-        src = hiddenUsers[title];
-        if (src) {
-          items.push([
-            'img', {
-              src: src,
-              title: title,
-              style: "margin-right:5px;",
-              width: "24",
-              height: "24"
-            }
-          ]);
-        } else {
-          items.push([
-            'div', function() {
-              return title + '&nbsp;&nbsp';
-            }
-          ]);
-        }
-      }
-      if (items.length !== 0) {
-        items.unshift(['br', function() {}]);
-        items.unshift([
-          'span', function() {
-            return messages.get('users_with_hidden_tweets') + ':';
-          }
-        ]);
-      }
-      filters = [];
-      if (terms) filters.push(messages.get('terms'));
-      if (users) filters.push(messages.get('people'));
-      filtersMessage = filters.join(' ' + messages.get('and') + ' ');
-      filteringByEndMessage = messages.get('filtering_by_end' + (hiddenCount === 1 ? '_singular' : ''));
+    ReportPhoenixView.prototype.headerTemplate = function() {
+      text(messages.get('filtering_by_start'));
+      text(' ');
+      span('.user-stat-link', {
+        'data-bind': 'text: hiddenCount'
+      });
+      text(' ');
+      span({
+        'data-bind': 'text: filteringByEndMessage'
+      });
+      text(' ');
+      return span({
+        'data-bind': 'text: filtersMessage'
+      });
+    };
+
+    ReportPhoenixView.prototype.bodyTemplate = function() {
+      span({
+        'data-bind': 'if: hasHiddenTweets'
+      }, function() {
+        span(function() {
+          return messages.get('users_with_hidden_tweets') + ':';
+        });
+        return br(function() {});
+      });
+      span({
+        'data-bind': 'foreach: usersPhotos'
+      }, function() {
+        return img({
+          'data-bind': 'attr: {src: $data.src, title: $data.title}',
+          style: 'margin-right:5px;',
+          width: 24,
+          height: 24
+        });
+      });
+      return span({
+        'data-bind': 'foreach: usersNames'
+      }, function() {
+        return div({
+          'data-bind': 'text: $data + "&nbsp;&nbsp"'
+        });
+      });
+    };
+
+    ReportPhoenixView.prototype.render = function(viewModel) {
+      var html;
+      $('.filter-report-component').each(function() {
+        return ko.cleanNode(this);
+      }).remove();
       html = CoffeeKup.render(this.template, {
-        locals: {
-          hiddenCount: hiddenCount,
-          filtersMessage: filtersMessage,
-          filteringByEndMessage: filteringByEndMessage,
-          items: items
+        hardcode: {
+          headerTemplate: this.headerTemplate,
+          bodyTemplate: this.bodyTemplate
         }
       });
-      return $('.dashboard').find('.component:not(:empty):eq(0)').after(html);
+      $('.dashboard').find('.component:not(:empty):eq(0)').after(html);
+      return ko.applyBindings(viewModel, $('.filter-report-component')[0]);
     };
 
     return ReportPhoenixView;
@@ -832,28 +894,16 @@
     }
 
     ReportPhoenixT1View.prototype.template = function() {
-      return div('.filter-report-component.component', function() {
+      return div('.filter-report-component.component', {
+        'data-bind': 'visible: visible'
+      }, function() {
         return div('.module', function() {
           return div('.flex-module', function() {
             div('.flex-module-header', function() {
-              return h3(function() {
-                text(messages.get('filtering_by_start'));
-                strong(function() {
-                  return " " + hiddenCount + " ";
-                });
-                return text("" + filteringByEndMessage + " " + filtersMessage + ".");
-              });
+              return h3(headerTemplate);
             });
             return div('.flex-module-inner', function() {
-              return div(function() {
-                var item, _i, _len, _results;
-                _results = [];
-                for (_i = 0, _len = items.length; _i < _len; _i++) {
-                  item = items[_i];
-                  _results.push(tag.apply(null, item));
-                }
-                return _results;
-              });
+              return div(bodyTemplate);
             });
           });
         });
@@ -1044,32 +1094,34 @@
 
   Extension = (function() {
 
-    Extension.prototype.viewModel = new ViewModel;
-
     Extension.prototype.provider = Provider.getActive(FilterPhoenixProvider, FilterPhoenixT1Provider);
 
     function Extension() {
       var _this = this;
-      this.provider.dialogView.render(this.viewModel);
+      this.dialogViewModel = new DialogViewModel;
+      this.reportViewModel = new ReportViewModel(this.dialogViewModel);
+      this.provider.dialogView.render(this.dialogViewModel);
       $(window).on('hashchange', function() {
-        return _this.applyFilter();
+        return setTimeout((function() {
+          return _this.applyFilter();
+        }), 500);
       });
       this.provider.onNewTweets(function() {
         return _this.applyFilter();
       });
-      this.viewModel.termsList.subscribe(function() {
+      this.dialogViewModel.termsList.subscribe(function() {
         return _this.applyFilter();
       });
-      this.viewModel.termsExclude.subscribe(function() {
+      this.dialogViewModel.termsExclude.subscribe(function() {
         return _this.applyFilter();
       });
-      this.viewModel.usersList.subscribe(function() {
+      this.dialogViewModel.usersList.subscribe(function() {
         return _this.applyFilter();
       });
-      this.viewModel.usersExclude.subscribe(function() {
+      this.dialogViewModel.usersExclude.subscribe(function() {
         return _this.applyFilter();
       });
-      this.viewModel.enabled.subscribe(function() {
+      this.dialogViewModel.enabled.subscribe(function() {
         return _this.applyFilter();
       });
       this.applyFilter();
@@ -1079,10 +1131,10 @@
       var _this = this;
       return this.throttle(10, function() {
         var apply, hiddenCount, hiddenUsers, termsPattern, usersPattern;
-        apply = _this.viewModel.enabled() && _this.provider.filterCurrentPage();
+        apply = _this.dialogViewModel.enabled() && _this.provider.filterCurrentPage();
         if (apply) {
-          termsPattern = _this.filterPattern(_this.viewModel.termsList(), false);
-          usersPattern = _this.filterPattern(_this.viewModel.usersList(), true);
+          termsPattern = _this.filterPattern(_this.dialogViewModel.termsList(), false);
+          usersPattern = _this.filterPattern(_this.dialogViewModel.usersList(), true);
         }
         hiddenCount = 0;
         hiddenUsers = {};
@@ -1095,12 +1147,12 @@
             termsRegExp = _this.filterRegExp(termsPattern);
             if (termsRegExp != null) {
               foundTermsMatches = termsRegExp.test(_this.provider.tweetText(el));
-              termsMatch = _this.viewModel.termsExclude() === foundTermsMatches;
+              termsMatch = _this.dialogViewModel.termsExclude() === foundTermsMatches;
             }
             usersRegExp = _this.filterRegExp(usersPattern);
             if (usersRegExp != null) {
               foundUserMatches = usersRegExp.test(tweetAuthor) || usersRegExp.test(_this.provider.tweetRetweeter(el));
-              usersMatch = _this.viewModel.usersExclude() === foundUserMatches;
+              usersMatch = _this.dialogViewModel.usersExclude() === foundUserMatches;
             }
           }
           if (termsMatch || usersMatch) {
@@ -1113,8 +1165,9 @@
             return $(el).show();
           }
         });
+        _this.reportViewModel.applied(apply).hasTerms(termsPattern != null).hasUsers(usersPattern != null).hiddenCount(hiddenCount).hiddenUsers(hiddenUsers);
         return _this.throttle(1000, function() {
-          return _this.provider.reportView.render(apply, termsPattern != null, usersPattern != null, hiddenCount, hiddenUsers);
+          return _this.provider.reportView.render(_this.reportViewModel);
         });
       });
     };

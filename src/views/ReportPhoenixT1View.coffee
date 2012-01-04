@@ -2,15 +2,10 @@
 class ReportPhoenixT1View extends ReportPhoenixView
 
   template: ->
-    div '.filter-report-component.component', ->
+    div '.filter-report-component.component', 'data-bind': 'visible: visible', ->
       div '.module', ->
         div '.flex-module', ->
           div '.flex-module-header', ->
-            h3 ->
-              text messages.get('filtering_by_start')
-              strong -> " #{hiddenCount} "
-              text "#{filteringByEndMessage} #{filtersMessage}."
+            h3 headerTemplate
           div '.flex-module-inner', ->
-            div ->
-              for item in items
-                tag.apply null, item
+            div bodyTemplate
