@@ -14,7 +14,7 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 
 ## Usage
 
-1. Install the official release from [Chrome Web Store](TODO: to be defined).
+1. Install the official release from [Chrome Web Store](https://chrome.google.com/webstore/detail/bdmjagdcpkfpebaaffpafncgkleijako).
 1. Refresh you *twitter.com* page.
 1. Press the **Filter** button at the top navigation bar.
 1. Enter terms separated by commas in the first field.
