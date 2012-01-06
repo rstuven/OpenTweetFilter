@@ -4,6 +4,7 @@ class DialogPhoenixView
   render: (viewModel) ->
     @renderButton viewModel
     @renderDialog viewModel
+    @monitorBookmarklet viewModel
     @showWelcomeTip viewModel
 
   renderButton: (viewModel) ->
@@ -49,6 +50,8 @@ class DialogPhoenixView
                   span 'data-bind': 'click: toggleShowReportView', -> messages.get('show_report_view')
           div '.twttr-dialog-footer', ->
             div '.filter-dialog-footer-right', ->
+              a '.filter-bookmarklet',
+                'data-bind': 'attr: {href: bookmarklet}', -> messages.get('bookmarklet_text')
               a '.btn', 
                 'data-bind': 'text: toggleText, click: toggleEnabled'
             div '.filter-dialog-footer-left', ->
@@ -76,29 +79,38 @@ class DialogPhoenixView
             .css('top', (($(window).height() - dialog.outerHeight()) / 2) + 'px')
             .css('left', (($(window).width() - dialog.outerWidth()) / 2) + 'px')
 
-        container.draggable()
+        container.draggable handle: '.twttr-dialog-header'
             
         # Stop propagation of events captured by Twitter.
         container.on 'keydown keypress', (event) ->
           event.stopPropagation()
         
         # Tips
-        container.find('.filter-terms-list').tipsy gravity: 'w', trigger: 'focus', html: true, fallback: messages.get('filter_terms_list_title')
-        container.find('.filter-users-list').tipsy gravity: 'w', trigger: 'focus', html: true, fallback: messages.get('filter_users_list_title')
+        container.find('.filter-terms-list')  .tipsy gravity: 'w', trigger: 'focus', html: true, fallback: messages.get('filter_terms_list_title')
+        container.find('.filter-users-list')  .tipsy gravity: 'w', trigger: 'focus', html: true, fallback: messages.get('filter_users_list_title')
+        container.find('.filter-bookmarklet') .tipsy gravity: 'n', trigger: 'hover', html: true, fallback: messages.get('bookmarklet_title')
         
         # Reload and bind
         viewModel.reload()
         ko.applyBindings viewModel, container[0]
 
       else
-        container.find('.filter-terms-list').tipsy 'hide'
-        container.find('.filter-users-list').tipsy 'hide'
+        container.find('.filter-terms-list')  .tipsy 'hide'
+        container.find('.filter-users-list')  .tipsy 'hide'
+        container.find('.filter-bookmarklet') .tipsy 'hide'
 
         ko.cleanNode container[0]
 
         container.remove()
         overlay.hide()
         $('body').removeClass 'modal-enabled'
+
+  # Monitor bookmarklet execution
+  monitorBookmarklet: (viewModel) ->
+    $('#filter-button').on 'DOMNodeInserted', (event) ->
+      el = $(event.target)
+      viewModel.bookmarkletLoaded(el.data('version'))
+      el.remove()
 
   showWelcomeTip: (viewModel) ->
     if viewModel.showWelcomeTip()

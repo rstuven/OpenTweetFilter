@@ -391,6 +391,8 @@
     filter_terms_list_title: 'Terms separated by commas,<br/>eg.: twitcam, #fail',
     filter_users_list_title: 'Usernames separated by commas,<br/>eg.: twitterowsky, robocopano',
     show_report_view: 'Show report of filtered tweets.',
+    bookmarklet_text: 'OpenTweetFilter Settings',
+    bookmarklet_title: 'Drag this bookmarklet to the bookmarks bar so you can backup your filters',
     filtering_by_start: 'Hiding',
     filtering_by_end: 'tweets by filter of',
     filtering_by_end_singular: 'tweet by filter of',
@@ -414,6 +416,8 @@
     filter_terms_list_title: 'Términos separados por comas.<br/>Por ej.: twitcam, jijiji',
     filter_users_list_title: 'Usuarios separados por comas.<br/>Por ej.: tuiterowsky, robocopano',
     show_report_view: 'Mostrar resumen de tweets filtrados.',
+    bookmarklet_text: 'Configuración de OpenTweetFilter',
+    bookmarklet_title: 'Arrastra este elemento a la barra de marcadores para respaldar tus filtros',
     filtering_by_start: 'Ocultando',
     filtering_by_end: 'tweets por filtro de',
     filtering_by_end_singular: 'tweet por filtro de',
@@ -428,37 +432,31 @@
 
   DialogViewModel = (function() {
 
+    DialogViewModel.prototype.version = 2;
+
+    DialogViewModel.prototype.settings = {
+      termsList: '',
+      termsExclude: true,
+      usersList: '',
+      usersExclude: true,
+      enabled: true,
+      showReportView: true
+    };
+
     function DialogViewModel() {
-      var enabled, showReportView, showWelcomeTip, termsExclude, termsList, usersExclude, usersList;
+      var $default, setting, _ref;
       var _this = this;
-      termsList = localStorage.filter_terms_list || '';
-      termsExclude = (localStorage.filter_terms_exclude || '1') === '1';
-      usersList = localStorage.filter_from_list || '';
-      usersExclude = (localStorage.filter_from_exclude || '1') === '1';
-      enabled = (localStorage.filter_enabled || '1') === '1';
-      showReportView = true;
-      showWelcomeTip = true;
-      this.termsList = ko.observable(termsList, {
-        persist: 'TwitterFilter.termsList'
-      });
-      this.termsExclude = ko.observable(termsExclude, {
-        persist: 'TwitterFilter.termsExclude'
-      });
-      this.usersList = ko.observable(usersList, {
-        persist: 'TwitterFilter.usersList'
-      });
-      this.usersExclude = ko.observable(usersExclude, {
-        persist: 'TwitterFilter.usersExclude'
-      });
-      this.enabled = ko.observable(enabled, {
-        persist: 'TwitterFilter.enabled'
-      });
-      this.showReportView = ko.observable(showReportView, {
-        persist: 'TwitterFilter.showReportView'
-      });
-      this.showWelcomeTip = ko.observable(showWelcomeTip, {
+      this.showWelcomeTip = ko.observable(true, {
         persist: 'TwitterFilter.showWelcomeTip'
       });
+      _ref = this.settings;
+      for (setting in _ref) {
+        $default = _ref[setting];
+        this[setting] = ko.observable($default, {
+          persist: 'TwitterFilter.' + setting
+        });
+      }
+      this.migrateSince(1);
       this.visible = ko.observable(false);
       this.buttonStatusHtml = ko.computed(function() {
         if (_this.enabled()) {
@@ -488,24 +486,59 @@
           return messages.get('including');
         }
       });
+      this.bookmarklet = ko.computed(function() {
+        var code, set, sets, setting;
+        set = function(setting) {
+          var observable, value;
+          observable = _this[setting];
+          value = JSON.stringify(observable()).replace(/\\/g, "\\\\").replace(/\'/g, "\\'");
+          return "s('" + observable.persistKey + "','" + value + "');";
+        };
+        sets = ((function() {
+          var _results;
+          _results = [];
+          for (setting in this.settings) {
+            _results.push(set(setting));
+          }
+          return _results;
+        }).call(_this)).join('');
+        code = "javascript:(function(){\nfunction s(k,v){window.localStorage.setItem(k,v);}\n" + sets + "\n$('<div id=\"filter-reload\" data-version=\"" + _this.version + "\"></div>').appendTo($('#filter-button'));\n})();";
+        return code.replace(/\n/g, '');
+      });
     }
 
     DialogViewModel.prototype.clear = function() {
-      this.termsList('');
-      this.termsExclude(true);
-      this.usersList('');
-      this.usersExclude(true);
-      this.enabled(true);
-      return this.showReportView(true);
+      var $default, setting, _ref, _results;
+      _ref = this.settings;
+      _results = [];
+      for (setting in _ref) {
+        $default = _ref[setting];
+        _results.push(this[setting]($default));
+      }
+      return _results;
     };
 
     DialogViewModel.prototype.reload = function() {
-      this.termsList.reload();
-      this.termsExclude.reload();
-      this.usersList.reload();
-      this.usersExclude.reload();
-      this.enabled.reload();
-      return this.showReportView.reload();
+      var setting, _results;
+      _results = [];
+      for (setting in this.settings) {
+        _results.push(this[setting].reload());
+      }
+      return _results;
+    };
+
+    DialogViewModel.prototype.onSettingsChange = function(callback) {
+      var setting, _results;
+      _results = [];
+      for (setting in this.settings) {
+        _results.push(this[setting].subscribe(callback));
+      }
+      return _results;
+    };
+
+    DialogViewModel.prototype.bookmarkletLoaded = function(version) {
+      this.migrateSince(version);
+      return this.reload();
     };
 
     DialogViewModel.prototype.toggle = function(attr) {
@@ -530,6 +563,40 @@
 
     DialogViewModel.prototype.toggleShowReportView = function() {
       return this.toggle('showReportView');
+    };
+
+    DialogViewModel.prototype.migrateSince = function(sinceVersion) {
+      var version, _results;
+      version = sinceVersion + 1;
+      _results = [];
+      while (version <= this.version) {
+        _results.push(this.migrations[version++]());
+      }
+      return _results;
+    };
+
+    DialogViewModel.prototype.migrations = {
+      2: function() {
+        var toBoolean, up;
+        up = function(oldKey, newKey, map) {
+          var oldValue;
+          oldValue = localStorage.getItem(oldKey);
+          if (oldValue != null) {
+            if (map != null) oldValue = map(oldValue);
+            localStorage.setItem('TwitterFilter.' + newKey, oldValue);
+            return localStorage.removeItem(oldKey);
+          }
+        };
+        toBoolean = function(x) {
+          return x === '1';
+        };
+        up('filter_terms_list', 'termsList');
+        up('filter_terms_exclude', 'termsExclude', toBoolean);
+        up('filter_from_list', 'usersList');
+        up('filter_from_exclude', 'usersExclude', toBoolean);
+        return up('filter_enabled', 'enabled', toBoolean);
+      },
+      3: function() {}
     };
 
     return DialogViewModel;
@@ -603,6 +670,7 @@
     DialogPhoenixView.prototype.render = function(viewModel) {
       this.renderButton(viewModel);
       this.renderDialog(viewModel);
+      this.monitorBookmarklet(viewModel);
       return this.showWelcomeTip(viewModel);
     };
 
@@ -683,6 +751,11 @@
             });
             return div('.twttr-dialog-footer', function() {
               div('.filter-dialog-footer-right', function() {
+                a('.filter-bookmarklet', {
+                  'data-bind': 'attr: {href: bookmarklet}'
+                }, function() {
+                  return messages.get('bookmarklet_text');
+                });
                 return a('.btn', {
                   'data-bind': 'text: toggleText, click: toggleEnabled'
                 });
@@ -726,7 +799,9 @@
             dialog = $('#filter-dialog');
             dialog.css('position', 'absolute').css('top', (($(window).height() - dialog.outerHeight()) / 2) + 'px').css('left', (($(window).width() - dialog.outerWidth()) / 2) + 'px');
           }
-          container.draggable();
+          container.draggable({
+            handle: '.twttr-dialog-header'
+          });
           container.on('keydown keypress', function(event) {
             return event.stopPropagation();
           });
@@ -742,11 +817,18 @@
             html: true,
             fallback: messages.get('filter_users_list_title')
           });
+          container.find('.filter-bookmarklet').tipsy({
+            gravity: 'n',
+            trigger: 'hover',
+            html: true,
+            fallback: messages.get('bookmarklet_title')
+          });
           viewModel.reload();
           return ko.applyBindings(viewModel, container[0]);
         } else {
           container.find('.filter-terms-list').tipsy('hide');
           container.find('.filter-users-list').tipsy('hide');
+          container.find('.filter-bookmarklet').tipsy('hide');
           ko.cleanNode(container[0]);
           container.remove();
           overlay.hide();
@@ -754,6 +836,15 @@
         }
       };
     })();
+
+    DialogPhoenixView.prototype.monitorBookmarklet = function(viewModel) {
+      return $('#filter-button').on('DOMNodeInserted', function(event) {
+        var el;
+        el = $(event.target);
+        viewModel.bookmarkletLoaded(el.data('version'));
+        return el.remove();
+      });
+    };
 
     DialogPhoenixView.prototype.showWelcomeTip = function(viewModel) {
       var _this = this;
@@ -1131,22 +1222,7 @@
       this.provider.onNewTweets(function() {
         return _this.applyFilter();
       });
-      this.dialogViewModel.termsList.subscribe(function() {
-        return _this.applyFilter();
-      });
-      this.dialogViewModel.termsExclude.subscribe(function() {
-        return _this.applyFilter();
-      });
-      this.dialogViewModel.usersList.subscribe(function() {
-        return _this.applyFilter();
-      });
-      this.dialogViewModel.usersExclude.subscribe(function() {
-        return _this.applyFilter();
-      });
-      this.dialogViewModel.enabled.subscribe(function() {
-        return _this.applyFilter();
-      });
-      this.dialogViewModel.showReportView.subscribe(function() {
+      this.dialogViewModel.onSettingsChange(function() {
         return _this.applyFilter();
       });
       this.applyFilter();

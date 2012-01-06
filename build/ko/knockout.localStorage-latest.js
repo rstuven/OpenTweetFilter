@@ -29,6 +29,8 @@
         }
         return observable;
       }
+      
+      observable.persistKey = key;
 
       // Subscribe to changes, and save to localStorage
       if(key){

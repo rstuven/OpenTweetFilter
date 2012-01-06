@@ -1,24 +1,22 @@
 # 
 class Extension
 
+  # Select the most suitable provider
   provider: Provider.getActive FilterPhoenixProvider, FilterPhoenixT1Provider
   
   constructor: ->
 
+    # The view models are powered by Knockout
+    # See http://knockoutjs.com/documentation/observables.html
     @dialogViewModel = new DialogViewModel
     @reportViewModel = new ReportViewModel @dialogViewModel
   
     @provider.dialogView.render @dialogViewModel
     
     # Apply filter on changes
-    $(window).on 'hashchange', => setTimeout (=> @applyFilter()), 500
-    @provider.onNewTweets                     => @applyFilter()
-    @dialogViewModel.termsList     .subscribe => @applyFilter()
-    @dialogViewModel.termsExclude  .subscribe => @applyFilter()
-    @dialogViewModel.usersList     .subscribe => @applyFilter()
-    @dialogViewModel.usersExclude  .subscribe => @applyFilter()
-    @dialogViewModel.enabled       .subscribe => @applyFilter()
-    @dialogViewModel.showReportView.subscribe => @applyFilter()
+    $(window)         .on 'hashchange',  => setTimeout (=> @applyFilter()), 500
+    @provider         .onNewTweets                      => @applyFilter()
+    @dialogViewModel  .onSettingsChange                 => @applyFilter()
     
     # Apply filter right now
     @applyFilter()

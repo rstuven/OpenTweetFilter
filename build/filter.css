@@ -104,3 +104,26 @@ div.filter-list-label {
   right: 10px;
   float: right;
 }
+
+a.filter-bookmarklet {
+  cursor: move;
+  border: 1px outset #ddd;
+  padding: 2px;
+  background: #ddd;
+  font-size: 11px;
+  color: #000 !important;
+  margin-right: 110px;
+}
+
+.es a.filter-bookmarklet {
+  margin-right: 80px;
+}
+
+.t1 a.filter-bookmarklet {
+  margin-right: 90px;
+}
+
+.t1.es a.filter-bookmarklet {
+  margin-right: 55px;
+}
+
