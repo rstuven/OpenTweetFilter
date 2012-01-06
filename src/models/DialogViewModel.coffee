@@ -104,7 +104,7 @@ class DialogViewModel
         oldValue = localStorage.getItem oldKey
         if oldValue?
           oldValue = map oldValue if map?
-          localStorage.setItem 'TwitterFilter.' + newKey, oldValue
+          localStorage.setItem 'TwitterFilter.' + newKey, JSON.stringify(oldValue)
           localStorage.removeItem oldKey
       
       toBoolean = (x) -> x is '1'

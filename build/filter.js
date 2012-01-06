@@ -583,7 +583,7 @@
           oldValue = localStorage.getItem(oldKey);
           if (oldValue != null) {
             if (map != null) oldValue = map(oldValue);
-            localStorage.setItem('TwitterFilter.' + newKey, oldValue);
+            localStorage.setItem('TwitterFilter.' + newKey, JSON.stringify(oldValue));
             return localStorage.removeItem(oldKey);
           }
         };
