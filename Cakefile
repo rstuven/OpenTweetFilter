@@ -21,13 +21,13 @@ appFiles  = [
   'providers/FilterPhoenixProvider'
   'providers/FilterPhoenixT1Provider'
   'Extension'
-]
+].map (file) -> "src/#{file}.coffee"
 
 build = ->
 
   appContents = new Array remaining = appFiles.length
   for file, index in appFiles then do (file, index) ->
-    fs.readFile "src/#{file}.coffee", 'utf8', (err, fileContents) ->
+    fs.readFile file, 'utf8', (err, fileContents) ->
       return logerr err if err
       appContents[index] = fileContents
       link() if --remaining is 0
@@ -49,7 +49,7 @@ task 'watch', 'Watch source files changes and build.', ->
   @event = null
   @filename = null
   for file, index in appFiles then do (file, index) ->
-    fs.watch "src/#{file}.coffee", (event, filename) =>
+    fs.watch file, (event, filename) =>
       if event != @event or filename != @filename
         console.log event + ' ' + filename
       @event = event
