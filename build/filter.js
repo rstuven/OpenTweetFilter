@@ -1,6 +1,9 @@
 (function() {
-  var DialogPhoenixT1View, DialogPhoenixView, DialogViewModel, Extension, FilterPhoenixProvider, FilterPhoenixT1Provider, PhoenixProvider, PhoenixT1Provider, Provider, ReportPhoenixT1View, ReportPhoenixView, ReportViewModel, cache, coffee, coffeekup, coffeescript_helpers, elements, merge_elements, skeleton;
-  var __slice = Array.prototype.slice, __hasProp = Object.prototype.hasOwnProperty, __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (__hasProp.call(this, i) && this[i] === item) return i; } return -1; }, __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
+  var DialogPhoenixT1View, DialogPhoenixView, DialogViewModel, Extension, FilterPhoenixProvider, FilterPhoenixT1Provider, PhoenixProvider, PhoenixT1Provider, Provider, ReportPhoenixT1View, ReportPhoenixView, ReportViewModel, cache, coffee, coffeekup, coffeescript_helpers, elements, merge_elements, skeleton,
+    __slice = Array.prototype.slice,
+    __indexOf = Array.prototype.indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
+    __hasProp = Object.prototype.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor; child.__super__ = parent.prototype; return child; };
 
   if (typeof window !== "undefined" && window !== null) {
     coffeekup = window.CoffeeKup = {};
@@ -63,10 +66,10 @@
   coffeekup.self_closing = merge_elements('void', 'obsolete_void');
 
   skeleton = function(data) {
-    var coffeescript, comment, doctype, h, ie, tag, text, yield, __ck, _ref, _ref2;
+    var coffeescript, comment, doctype, h, ie, tag, text, yield, __ck;
     if (data == null) data = {};
-    if ((_ref = data.format) == null) data.format = false;
-    if ((_ref2 = data.autoescape) == null) data.autoescape = false;
+    if (data.format == null) data.format = false;
+    if (data.autoescape == null) data.autoescape = false;
     __ck = {
       buffer: [],
       esc: function(txt) {
@@ -93,11 +96,11 @@
         return tag.apply(data, combo);
       },
       render_idclass: function(str) {
-        var c, classes, i, id, _i, _j, _len, _len2, _ref3;
+        var c, classes, i, id, _i, _j, _len, _len2, _ref;
         classes = [];
-        _ref3 = str.split('.');
-        for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
-          i = _ref3[_i];
+        _ref = str.split('.');
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          i = _ref[_i];
           if (__indexOf.call(i, '#') >= 0) {
             id = i.replace('#', '');
           } else {
@@ -305,14 +308,14 @@
   cache = {};
 
   coffeekup.render = function(template, data, options) {
-    var k, tpl, v, _ref;
+    var k, tpl, v;
     if (data == null) data = {};
     if (options == null) options = {};
     for (k in options) {
       v = options[k];
       data[k] = v;
     }
-    if ((_ref = data.cache) == null) data.cache = false;
+    if (data.cache == null) data.cache = false;
     if (data.cache && (cache[template] != null)) {
       tpl = cache[template];
     } else if (data.cache) {
@@ -328,9 +331,9 @@
       simple: coffeekup.render,
       meryl: coffeekup.render,
       express: {
-        TemplateError: (function() {
+        TemplateError: (function(_super) {
 
-          __extends(_Class, Error);
+          __extends(_Class, _super);
 
           function _Class(message) {
             this.message = message;
@@ -342,10 +345,10 @@
 
           return _Class;
 
-        })(),
+        })(Error),
         compile: function(template, data) {
-          var TemplateError, tpl, _ref;
-          if ((_ref = data.hardcode) == null) data.hardcode = {};
+          var TemplateError, tpl;
+          if (data.hardcode == null) data.hardcode = {};
           data.hardcode.partial = function() {
             return text(this.partial.apply(this, arguments));
           };
@@ -444,8 +447,8 @@
     };
 
     function DialogViewModel() {
-      var $default, setting, _ref;
-      var _this = this;
+      var $default, setting, _ref,
+        _this = this;
       this.showWelcomeTip = ko.observable(true, {
         persist: 'TwitterFilter.showWelcomeTip'
       });
@@ -774,8 +777,8 @@
     };
 
     DialogPhoenixView.prototype.renderDialog = function(viewModel) {
-      var dialogHtml;
-      var _this = this;
+      var dialogHtml,
+        _this = this;
       dialogHtml = CoffeeKup.render(this.dialogTemplate);
       return viewModel.visible.subscribe(function(visible) {
         return _this.toggleVisible(visible, dialogHtml, viewModel, {
@@ -870,9 +873,9 @@
 
   })();
 
-  DialogPhoenixT1View = (function() {
+  DialogPhoenixT1View = (function(_super) {
 
-    __extends(DialogPhoenixT1View, DialogPhoenixView);
+    __extends(DialogPhoenixT1View, _super);
 
     function DialogPhoenixT1View() {
       DialogPhoenixT1View.__super__.constructor.apply(this, arguments);
@@ -904,8 +907,8 @@
     };
 
     DialogPhoenixT1View.prototype.renderDialog = function(viewModel) {
-      var dialogHtml;
-      var _this = this;
+      var dialogHtml,
+        _this = this;
       dialogHtml = CoffeeKup.render(this.dialogTemplate);
       return viewModel.visible.subscribe(function(visible) {
         return _this.toggleVisible(visible, dialogHtml, viewModel, {
@@ -917,7 +920,7 @@
 
     return DialogPhoenixT1View;
 
-  })();
+  })(DialogPhoenixView);
 
   ReportPhoenixView = (function() {
 
@@ -998,9 +1001,9 @@
 
   })();
 
-  ReportPhoenixT1View = (function() {
+  ReportPhoenixT1View = (function(_super) {
 
-    __extends(ReportPhoenixT1View, ReportPhoenixView);
+    __extends(ReportPhoenixT1View, _super);
 
     function ReportPhoenixT1View() {
       ReportPhoenixT1View.__super__.constructor.apply(this, arguments);
@@ -1025,7 +1028,7 @@
 
     return ReportPhoenixT1View;
 
-  })();
+  })(ReportPhoenixView);
 
   Provider = (function() {
 
@@ -1059,9 +1062,9 @@
 
   })();
 
-  PhoenixProvider = (function() {
+  PhoenixProvider = (function(_super) {
 
-    __extends(PhoenixProvider, Provider);
+    __extends(PhoenixProvider, _super);
 
     function PhoenixProvider() {
       PhoenixProvider.__super__.constructor.apply(this, arguments);
@@ -1113,11 +1116,11 @@
 
     return PhoenixProvider;
 
-  })();
+  })(Provider);
 
-  PhoenixT1Provider = (function() {
+  PhoenixT1Provider = (function(_super) {
 
-    __extends(PhoenixT1Provider, PhoenixProvider);
+    __extends(PhoenixT1Provider, _super);
 
     function PhoenixT1Provider() {
       PhoenixT1Provider.__super__.constructor.apply(this, arguments);
@@ -1155,11 +1158,11 @@
 
     return PhoenixT1Provider;
 
-  })();
+  })(PhoenixProvider);
 
-  FilterPhoenixProvider = (function() {
+  FilterPhoenixProvider = (function(_super) {
 
-    __extends(FilterPhoenixProvider, PhoenixProvider);
+    __extends(FilterPhoenixProvider, _super);
 
     function FilterPhoenixProvider() {
       FilterPhoenixProvider.__super__.constructor.apply(this, arguments);
@@ -1179,11 +1182,11 @@
 
     return FilterPhoenixProvider;
 
-  })();
+  })(PhoenixProvider);
 
-  FilterPhoenixT1Provider = (function() {
+  FilterPhoenixT1Provider = (function(_super) {
 
-    __extends(FilterPhoenixT1Provider, PhoenixT1Provider);
+    __extends(FilterPhoenixT1Provider, _super);
 
     function FilterPhoenixT1Provider() {
       FilterPhoenixT1Provider.__super__.constructor.apply(this, arguments);
@@ -1203,7 +1206,7 @@
 
     return FilterPhoenixT1Provider;
 
-  })();
+  })(PhoenixT1Provider);
 
   Extension = (function() {
 
