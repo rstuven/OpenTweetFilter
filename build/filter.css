@@ -4,6 +4,7 @@
 
 #filter-button {
   cursor: pointer;
+  margin-top: -18px;
 }
 
 #filter-button-status {
