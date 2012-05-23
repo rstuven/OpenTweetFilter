@@ -5,7 +5,6 @@ util        = require 'util'
 
 appFiles  = [
   # omit 'src/' and '.coffee' to make the below lines a little shorter
-  'coffeekup'
   'messages'
   'messages.en'
   'messages.es'
