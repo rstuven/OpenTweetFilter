@@ -59,12 +59,12 @@ class Extension
           usersMatch = @dialogViewModel.usersExclude() == foundUserMatches
 
       if termsMatch or usersMatch
-        $(el).hide()
+        el.style.display = 'none' # Faster than jQuery 'hide' which causes reflow and repaint (call to getComputedStyle).
         hiddenCount++
         if not (tweetAuthor of hiddenUsers)
           hiddenUsers[tweetAuthor] = @provider.tweetAuthorPhoto(el)
       else 
-        $(el).show()
+        el.style.display = 'block'  # Faster than jQuery 'show' which causes reflow and repaint (call to getComputedStyle).
     
     # Update report view model
     @reportViewModel

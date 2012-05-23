@@ -911,13 +911,13 @@
             }
           }
           if (termsMatch || usersMatch) {
-            $(el).hide();
+            el.style.display = 'none';
             hiddenCount++;
             if (!(tweetAuthor in hiddenUsers)) {
               return hiddenUsers[tweetAuthor] = _this.provider.tweetAuthorPhoto(el);
             }
           } else {
-            return $(el).show();
+            return el.style.display = 'block';
           }
         });
         _this.reportViewModel.applied(apply).hasTerms(termsRegExp != null).hasUsers(usersRegExp != null).hiddenCount(hiddenCount).hiddenUsers(hiddenUsers);
