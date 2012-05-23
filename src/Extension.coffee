@@ -29,8 +29,8 @@ class Extension
     apply = @dialogViewModel.enabled() and @provider.filterCurrentPage()
 
     if apply
-      termsPattern = @filterPattern @dialogViewModel.termsList(), false
-      usersPattern = @filterPattern @dialogViewModel.usersList(), true
+      termsRegExp = @filterRegExp @filterPattern @dialogViewModel.termsList(), false
+      usersRegExp = @filterRegExp @filterPattern @dialogViewModel.usersList(), true
 
     hiddenCount = 0
     hiddenUsers = {}
@@ -44,15 +44,18 @@ class Extension
         tweetAuthor = @provider.tweetAuthor(el)
         
         # Terms
-        termsRegExp = @filterRegExp termsPattern
         if termsRegExp?
+          termsRegExp.lastIndex = 0
           foundTermsMatches = termsRegExp.test @provider.tweetText(el)
           termsMatch = @dialogViewModel.termsExclude() == foundTermsMatches
 
         # Users (author or retweeter)
-        usersRegExp = @filterRegExp usersPattern
         if usersRegExp?
-          foundUserMatches = usersRegExp.test(tweetAuthor) or usersRegExp.test(@provider.tweetRetweeter(el))
+          usersRegExp.lastIndex = 0
+          foundUserMatches = usersRegExp.test tweetAuthor
+          if not foundUserMatches
+            usersRegExp.lastIndex = 0
+            foundUserMatches = usersRegExp.test @provider.tweetRetweeter(el)
           usersMatch = @dialogViewModel.usersExclude() == foundUserMatches
 
       if termsMatch or usersMatch
@@ -66,8 +69,8 @@ class Extension
     # Update report view model
     @reportViewModel
       .applied(apply)
-      .hasTerms(termsPattern?)
-      .hasUsers(usersPattern?)
+      .hasTerms(termsRegExp?)
+      .hasUsers(usersRegExp?)
       .hiddenCount(hiddenCount)
       .hiddenUsers(hiddenUsers)
 

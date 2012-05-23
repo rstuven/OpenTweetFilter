@@ -880,29 +880,33 @@
     Extension.prototype.applyFilter = function() {
       var _this = this;
       return this.throttle(10, function() {
-        var apply, hiddenCount, hiddenUsers, termsPattern, usersPattern;
+        var apply, hiddenCount, hiddenUsers, termsRegExp, usersRegExp;
         _this.dialogViewModel.reload();
         apply = _this.dialogViewModel.enabled() && _this.provider.filterCurrentPage();
         if (apply) {
-          termsPattern = _this.filterPattern(_this.dialogViewModel.termsList(), false);
-          usersPattern = _this.filterPattern(_this.dialogViewModel.usersList(), true);
+          termsRegExp = _this.filterRegExp(_this.filterPattern(_this.dialogViewModel.termsList(), false));
+          usersRegExp = _this.filterRegExp(_this.filterPattern(_this.dialogViewModel.usersList(), true));
         }
         hiddenCount = 0;
         hiddenUsers = {};
         _this.provider.tweets().each(function(i, el) {
-          var foundTermsMatches, foundUserMatches, termsMatch, termsRegExp, tweetAuthor, usersMatch, usersRegExp;
+          var foundTermsMatches, foundUserMatches, termsMatch, tweetAuthor, usersMatch;
           termsMatch = false;
           usersMatch = false;
           if (apply) {
             tweetAuthor = _this.provider.tweetAuthor(el);
-            termsRegExp = _this.filterRegExp(termsPattern);
             if (termsRegExp != null) {
+              termsRegExp.lastIndex = 0;
               foundTermsMatches = termsRegExp.test(_this.provider.tweetText(el));
               termsMatch = _this.dialogViewModel.termsExclude() === foundTermsMatches;
             }
-            usersRegExp = _this.filterRegExp(usersPattern);
             if (usersRegExp != null) {
-              foundUserMatches = usersRegExp.test(tweetAuthor) || usersRegExp.test(_this.provider.tweetRetweeter(el));
+              usersRegExp.lastIndex = 0;
+              foundUserMatches = usersRegExp.test(tweetAuthor);
+              if (!foundUserMatches) {
+                usersRegExp.lastIndex = 0;
+                foundUserMatches = usersRegExp.test(_this.provider.tweetRetweeter(el));
+              }
               usersMatch = _this.dialogViewModel.usersExclude() === foundUserMatches;
             }
           }
@@ -916,7 +920,7 @@
             return $(el).show();
           }
         });
-        _this.reportViewModel.applied(apply).hasTerms(termsPattern != null).hasUsers(usersPattern != null).hiddenCount(hiddenCount).hiddenUsers(hiddenUsers);
+        _this.reportViewModel.applied(apply).hasTerms(termsRegExp != null).hasUsers(usersRegExp != null).hiddenCount(hiddenCount).hiddenUsers(hiddenUsers);
         return _this.throttle(1000, function() {
           return _this.provider.reportView.render(_this.reportViewModel);
         });
