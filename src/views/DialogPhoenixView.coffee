@@ -17,6 +17,8 @@ class DialogPhoenixView
     $('#global-nav').append CoffeeKup.render buttonTemplate
     ko.applyBindings viewModel, $('#filter-button')[0]
 
+  dialogHeaderSelector: '.twttr-dialog-header'
+
   dialogTemplate: ->
     div '#filter-dialog-container.twttr-dialog-container.draggable', ->
       div '#filter-dialog.twttr-dialog', ->
@@ -61,17 +63,19 @@ class DialogPhoenixView
   renderDialog: (viewModel) ->
     dialogHtml = CoffeeKup.render @dialogTemplate
     viewModel.visible.subscribe (visible) =>
-      @toggleVisible visible, dialogHtml, viewModel, appendTo: 'body', center: true
+      @visibleToggled visible, dialogHtml, viewModel, appendTo: 'body', center: true
 
-  toggleVisible: do ->
+  visibleToggled: do =>
     container = null
     overlay = $('<div class="twttr-dialog-overlay"></div>').appendTo $('body')
     (visible, dialogHtml, viewModel, options) ->
       if  visible
-        $('body').addClass 'modal-enabled'
+        #$('body').addClass 'modal-enabled'
         overlay.show()
+        
         container = $(dialogHtml).appendTo $(options.appendTo)
-
+        container.show()
+        
         if options.center
           dialog = $('#filter-dialog')
           dialog
@@ -79,7 +83,7 @@ class DialogPhoenixView
             .css('top', (($(window).height() - dialog.outerHeight()) / 2) + 'px')
             .css('left', (($(window).width() - dialog.outerWidth()) / 2) + 'px')
 
-        container.draggable handle: '.twttr-dialog-header'
+        container.draggable handle: @dialogHeaderSelector
             
         # Stop propagation of events captured by Twitter.
         container.on 'keydown keypress', (event) ->
@@ -103,7 +107,7 @@ class DialogPhoenixView
 
         container.remove()
         overlay.hide()
-        $('body').removeClass 'modal-enabled'
+        #$('body').removeClass 'modal-enabled'
 
   # Monitor bookmarklet execution
   monitorBookmarklet: (viewModel) ->
@@ -112,17 +116,20 @@ class DialogPhoenixView
       viewModel.bookmarkletLoaded(el.data('version'))
       el.remove()
 
+  welcomeTip: ->
+    $('#filter-button')
+
   showWelcomeTip: (viewModel) ->
     if viewModel.showWelcomeTip()
       setTimeout(=>
-        $('#filter-button')
+        @welcomeTip()
           .tipsy(gravity: 'n', trigger: 'manual', html: true, fallback: messages.get('welcome_tip'))
           .tipsy('show')
           .click ->
             $(@).tipsy 'hide'
         
-        setTimeout(->
-          $('#filter-button').tipsy 'hide'
+        setTimeout(=>
+          @welcomeTip().tipsy 'hide'
         , 30000)
         viewModel.showWelcomeTip false
       , 3000)

@@ -11,7 +11,7 @@ class PhoenixProvider extends Provider
     @normalizeUser $('.screen-name.pill').html()
 
   tweets: ->
-    $('div.stream-item[data-item-type="tweet"], div.stream-item.js-activity-favorite, div.stream-item.js-activity-retweet')
+    $('div.tweet.original-tweet.js-stream-tweet')
 
   tweetText: (el) ->
     $(el).find('.js-tweet-text, .tweet-text,.entry-content, .twtr-tweet-text').text()

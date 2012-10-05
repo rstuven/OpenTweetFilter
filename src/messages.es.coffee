@@ -1,5 +1,5 @@
 @messages.es =
-  filter_dialog_title: 'Tus filtros'
+  filter_dialog_title: 'Filtros'
   enable: 'Activar'
   disable: 'Desactivar'
   excluding: 'Excluyendo'
@@ -19,5 +19,5 @@
   people: 'usuarios'
   and: 'y'
   clear: 'Limpiar'
-  filter: 'Filtro'
+  filter: 'Filtros'
   welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Open Tweet Filter.'

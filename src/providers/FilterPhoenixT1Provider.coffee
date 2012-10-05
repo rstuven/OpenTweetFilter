@@ -5,13 +5,14 @@ class FilterPhoenixT1Provider extends PhoenixT1Provider
   reportView: new ReportPhoenixT1View
   
   filterCurrentPage: ->
-    isIgnorablePage = location.hash in @ignorablePages
+    isIgnorablePage = (location.pathname + location.hash) in @ignorablePages()
     not (@inMyProfilePage() or isIgnorablePage)
 
-  ignorablePages: [
-    '#!/i/connect'
-    '#!/i/discover'
-    '#!/who_to_follow/suggestions'
-    '#!/who_to_follow/import'
-    '#!/who_to_follow/interests'
-  ]
+  ignorablePages: ->
+    [
+      '/' + @sessionUser() + '/lists'
+      '/i/#!/who_to_follow/suggestions'
+      '/i/#!/who_to_follow/import'
+      '/i/#!/who_to_follow/interests'
+      
+    ]

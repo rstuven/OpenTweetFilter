@@ -36,6 +36,6 @@ class ReportPhoenixView
       headerTemplate: @headerTemplate
       bodyTemplate: @bodyTemplate
 
-    $('.dashboard').find('.component:not(:empty):eq(0)').after(html)
+    $('.dashboard').find('>.component:not(:empty):eq(0),>.module:not(:empty):eq(0)').first().after(html)
 
     ko.applyBindings viewModel, $('.filter-report-component')[0]

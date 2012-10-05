@@ -20,7 +20,7 @@
   };
 
   this.messages.en = {
-    filter_dialog_title: 'Your filters',
+    filter_dialog_title: 'Filters',
     enable: 'Enable',
     disable: 'Disable',
     excluding: 'Excluding',
@@ -40,12 +40,12 @@
     people: 'people',
     and: 'and',
     clear: 'Clear',
-    filter: 'Filter',
+    filter: 'Filters',
     welcome_tip: 'Pssst... Here you can configure<br/>the Open Tweet Filter extension.'
   };
 
   this.messages.es = {
-    filter_dialog_title: 'Tus filtros',
+    filter_dialog_title: 'Filtros',
     enable: 'Activar',
     disable: 'Desactivar',
     excluding: 'Excluyendo',
@@ -65,7 +65,7 @@
     people: 'usuarios',
     and: 'y',
     clear: 'Limpiar',
-    filter: 'Filtro',
+    filter: 'Filtros',
     welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Open Tweet Filter.'
   };
 
@@ -86,7 +86,7 @@
       var $default, setting, _ref,
         _this = this;
       this.showWelcomeTip = ko.observable(true, {
-        persist: 'TwitterFilter.showWelcomeTip'
+        persist: 'TwitterFilter.showWelcomeTip_001'
       });
       _ref = this.settings;
       for (setting in _ref) {
@@ -97,13 +97,6 @@
       }
       this.migrateSince(1);
       this.visible = ko.observable(false);
-      this.buttonStatusHtml = ko.computed(function() {
-        if (_this.enabled()) {
-          return '&#9745;';
-        } else {
-          return '&#9744;';
-        }
-      });
       this.toggleText = ko.computed(function() {
         if (_this.enabled()) {
           return messages.get('disable');
@@ -311,6 +304,7 @@
   })();
 
   DialogPhoenixView = (function() {
+    var _this = this;
 
     function DialogPhoenixView() {}
 
@@ -339,6 +333,8 @@
       $('#global-nav').append(CoffeeKup.render(buttonTemplate));
       return ko.applyBindings(viewModel, $('#filter-button')[0]);
     };
+
+    DialogPhoenixView.prototype.dialogHeaderSelector = '.twttr-dialog-header';
 
     DialogPhoenixView.prototype.dialogTemplate = function() {
       return div('#filter-dialog-container.twttr-dialog-container.draggable', function() {
@@ -425,29 +421,29 @@
         _this = this;
       dialogHtml = CoffeeKup.render(this.dialogTemplate);
       return viewModel.visible.subscribe(function(visible) {
-        return _this.toggleVisible(visible, dialogHtml, viewModel, {
+        return _this.visibleToggled(visible, dialogHtml, viewModel, {
           appendTo: 'body',
           center: true
         });
       });
     };
 
-    DialogPhoenixView.prototype.toggleVisible = (function() {
+    DialogPhoenixView.prototype.visibleToggled = (function() {
       var container, overlay;
       container = null;
       overlay = $('<div class="twttr-dialog-overlay"></div>').appendTo($('body'));
       return function(visible, dialogHtml, viewModel, options) {
         var dialog;
         if (visible) {
-          $('body').addClass('modal-enabled');
           overlay.show();
           container = $(dialogHtml).appendTo($(options.appendTo));
+          container.show();
           if (options.center) {
             dialog = $('#filter-dialog');
             dialog.css('position', 'absolute').css('top', (($(window).height() - dialog.outerHeight()) / 2) + 'px').css('left', (($(window).width() - dialog.outerWidth()) / 2) + 'px');
           }
           container.draggable({
-            handle: '.twttr-dialog-header'
+            handle: this.dialogHeaderSelector
           });
           container.on('keydown keypress', function(event) {
             return event.stopPropagation();
@@ -478,8 +474,7 @@
           container.find('.filter-bookmarklet').tipsy('hide');
           ko.cleanNode(container[0]);
           container.remove();
-          overlay.hide();
-          return $('body').removeClass('modal-enabled');
+          return overlay.hide();
         }
       };
     })();
@@ -493,11 +488,15 @@
       });
     };
 
+    DialogPhoenixView.prototype.welcomeTip = function() {
+      return $('#filter-button');
+    };
+
     DialogPhoenixView.prototype.showWelcomeTip = function(viewModel) {
       var _this = this;
       if (viewModel.showWelcomeTip()) {
         return setTimeout(function() {
-          $('#filter-button').tipsy({
+          _this.welcomeTip().tipsy({
             gravity: 'n',
             trigger: 'manual',
             html: true,
@@ -506,7 +505,7 @@
             return $(this).tipsy('hide');
           });
           setTimeout(function() {
-            return $('#filter-button').tipsy('hide');
+            return _this.welcomeTip().tipsy('hide');
           }, 30000);
           return viewModel.showWelcomeTip(false);
         }, 3000);
@@ -515,7 +514,7 @@
 
     return DialogPhoenixView;
 
-  })();
+  }).call(this);
 
   DialogPhoenixT1View = (function(_super) {
 
@@ -525,39 +524,109 @@
       return DialogPhoenixT1View.__super__.constructor.apply(this, arguments);
     }
 
+    DialogPhoenixT1View.prototype.welcomeTip = function() {
+      return $('#user-dropdown i.nav-session');
+    };
+
     DialogPhoenixT1View.prototype.renderButton = function(viewModel) {
       var buttonTemplate;
       buttonTemplate = function() {
-        return div('#filter-button.nav.filter', function() {
-          return li({
-            'data-bind': 'css: { active: visible() }'
+        return li('#filter-button', {
+          'data-name': 'filter'
+        }, function() {
+          return a('.js-filter-dialog', {
+            href: '#',
+            'data-bind': 'click: toggleVisible'
           }, function() {
-            return a('.js-hover', {
-              'data-bind': 'click: toggleVisible'
-            }, function() {
-              span('.new-wrapper', function() {});
-              span('#filter-button-status', {
-                'data-bind': 'html: buttonStatusHtml'
-              }, function() {});
-              return span('#filter-button-title', function() {
-                return text(messages.get('filter'), function() {});
-              });
+            return span('#filter-button-title', function() {
+              return text(messages.get('filter') + '&nbsp;', function() {});
             });
           });
         });
       };
-      $('#global-actions').after(CoffeeKup.render(buttonTemplate));
+      $('#user-dropdown ul li:nth-child(5)').after(CoffeeKup.render(buttonTemplate));
       return ko.applyBindings(viewModel, $('#filter-button')[0]);
     };
 
-    DialogPhoenixT1View.prototype.renderDialog = function(viewModel) {
-      var dialogHtml,
-        _this = this;
-      dialogHtml = CoffeeKup.render(this.dialogTemplate);
-      return viewModel.visible.subscribe(function(visible) {
-        return _this.toggleVisible(visible, dialogHtml, viewModel, {
-          appendTo: '.twttr-dialog-wrapper',
-          center: false
+    DialogPhoenixT1View.prototype.dialogHeaderSelector = '.modal-header';
+
+    DialogPhoenixT1View.prototype.dialogTemplate = function() {
+      return div('#filter-dialog-container.modal-container.draggable', function() {
+        div('.close-modal-background-target', function() {});
+        return div('#filter-dialog.modal', function() {
+          return div('.modal-content', function() {
+            button('.modal-btn.modal-close', {
+              'data-bind': 'click: toggleVisible'
+            }, function() {
+              return i('.close-medium', function() {
+                return span('.hidden-elements', function() {
+                  return '\u0026times;';
+                });
+              });
+            });
+            div('.modal-header', function() {
+              return h3('.modal-title', function() {
+                return messages.get('filter_dialog_title');
+              });
+            });
+            div('.modal-body', function() {
+              return fieldset(function() {
+                a('.btn.filter-list-label', {
+                  'data-bind': 'text: termsExcludeText, click: toggleTermsExclude'
+                });
+                div('.filter-list-label', function() {
+                  return '&nbsp;' + messages.get('tweets_terms') + ':';
+                });
+                input('.filter-terms-list', {
+                  'type': 'text',
+                  'data-bind': "value: termsList, valueUpdate: ['change', 'afterkeydown']"
+                });
+                div(function() {
+                  return '&nbsp;';
+                });
+                a('.btn.filter-list-label', {
+                  'data-bind': 'text: usersExcludeText, click: toggleUsersExclude'
+                });
+                div('.filter-list-label', function() {
+                  return '&nbsp;' + messages.get('tweets_users') + ':';
+                });
+                input('.filter-users-list', {
+                  'type': 'text',
+                  'data-bind': "value: usersList, valueUpdate: ['change', 'afterkeydown']"
+                });
+                return label('.checkbox', function() {
+                  input({
+                    'type': 'checkbox',
+                    'data-bind': "checked: showReportView"
+                  });
+                  return span({
+                    'data-bind': 'click: toggleShowReportView'
+                  }, function() {
+                    return messages.get('show_report_view');
+                  });
+                });
+              });
+            });
+            return div('.modal-footer', function() {
+              div('.filter-dialog-footer-left', function() {
+                return a('.btn', {
+                  'data-bind': 'click: clear'
+                }, function() {
+                  return messages.get('clear');
+                });
+              });
+              return div('.filter-dialog-footer-right', function() {
+                a('.filter-bookmarklet', {
+                  'data-bind': 'attr: {href: bookmarklet}'
+                }, function() {
+                  return messages.get('bookmarklet_text');
+                });
+                return a('.btn', {
+                  'data-bind': 'text: toggleText, click: toggleEnabled'
+                });
+              });
+            });
+          });
         });
       });
     };
@@ -637,7 +706,7 @@
           bodyTemplate: this.bodyTemplate
         }
       });
-      $('.dashboard').find('.component:not(:empty):eq(0)').after(html);
+      $('.dashboard').find('>.component:not(:empty):eq(0),>.module:not(:empty):eq(0)').first().after(html);
       return ko.applyBindings(viewModel, $('.filter-report-component')[0]);
     };
 
@@ -729,7 +798,7 @@
     };
 
     PhoenixProvider.prototype.tweets = function() {
-      return $('div.stream-item[data-item-type="tweet"], div.stream-item.js-activity-favorite, div.stream-item.js-activity-retweet');
+      return $('div.tweet.original-tweet.js-stream-tweet');
     };
 
     PhoenixProvider.prototype.tweetText = function(el) {
@@ -820,11 +889,13 @@
 
     FilterPhoenixProvider.prototype.filterCurrentPage = function() {
       var isIgnorablePage, _ref;
-      isIgnorablePage = (_ref = location.hash, __indexOf.call(this.ignorablePages, _ref) >= 0);
+      isIgnorablePage = (_ref = location.hash, __indexOf.call(this.ignorablePages(), _ref) >= 0);
       return !(this.inMyProfilePage() || isIgnorablePage);
     };
 
-    FilterPhoenixProvider.prototype.ignorablePages = ['#!/retweets', '#!/retweeted_of_mine', '#!/messages'];
+    FilterPhoenixProvider.prototype.ignorablePages = function() {
+      return ['#!/retweets', '#!/retweeted_of_mine', '#!/messages'];
+    };
 
     return FilterPhoenixProvider;
 
@@ -844,11 +915,13 @@
 
     FilterPhoenixT1Provider.prototype.filterCurrentPage = function() {
       var isIgnorablePage, _ref;
-      isIgnorablePage = (_ref = location.hash, __indexOf.call(this.ignorablePages, _ref) >= 0);
+      isIgnorablePage = (_ref = location.pathname + location.hash, __indexOf.call(this.ignorablePages(), _ref) >= 0);
       return !(this.inMyProfilePage() || isIgnorablePage);
     };
 
-    FilterPhoenixT1Provider.prototype.ignorablePages = ['#!/i/connect', '#!/i/discover', '#!/who_to_follow/suggestions', '#!/who_to_follow/import', '#!/who_to_follow/interests'];
+    FilterPhoenixT1Provider.prototype.ignorablePages = function() {
+      return ['/' + this.sessionUser() + '/lists', '/i/#!/who_to_follow/suggestions', '/i/#!/who_to_follow/import', '/i/#!/who_to_follow/interests'];
+    };
 
     return FilterPhoenixT1Provider;
 

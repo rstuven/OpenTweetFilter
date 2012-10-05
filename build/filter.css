@@ -3,20 +3,11 @@
  */
 
 #filter-button {
-  cursor: pointer;
-  margin-top: -18px;
+  background-color: white !important;
 }
 
-#filter-button-status {
-  float: left;
-  font-size: 26px;
-  margin-top: -7px;
-}
-
-#filter-button-title {
-  float: left;
-  margin-left: 5px;
-  margin-right: 5px;
+#filter-button a {
+  height: 18px;
 }
 
 .t1 .nav.filter {
@@ -31,13 +22,9 @@
  * Dialog
  */
 
-#filter-dialog-container {
-  width:490px !important;
-}
-
 #filter-dialog fieldset {
     margin: 10px 0px;
-    width: 100%;
+    width: 490px !important;
 }
 
 .t1 #filter-dialog fieldset .btn {
@@ -91,17 +78,17 @@ div.filter-list-label {
   width: 455px !important;
 }
 
-.t1 #filter-dialog .twttr-dialog-footer {
+.t1 #filter-dialog .modal-footer {
   padding-top: 10px;
   height: 25px;
 }
 
-.twttr-dialog-footer .filter-dialog-footer-left {
+.modal-footer .filter-dialog-footer-left {
   left: 10px;
   float: left;
 }
 
-.twttr-dialog-footer .filter-dialog-footer-right {
+.modal-footer .filter-dialog-footer-right {
   right: 10px;
   float: right;
 }

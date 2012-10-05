@@ -5,11 +5,12 @@ class FilterPhoenixProvider extends PhoenixProvider
   reportView: new ReportPhoenixView
 
   filterCurrentPage: ->
-    isIgnorablePage = location.hash in @ignorablePages
+    isIgnorablePage = location.hash in @ignorablePages()
     not (@inMyProfilePage() or isIgnorablePage)
 
-  ignorablePages: [
-    '#!/retweets'
-    '#!/retweeted_of_mine'
-    '#!/messages'
-  ]
+  ignorablePages: ->
+    [
+      '#!/retweets'
+      '#!/retweeted_of_mine'
+      '#!/messages'
+    ]

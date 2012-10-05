@@ -17,7 +17,7 @@ class DialogViewModel
   constructor: ->
     
     # Define persistent properties
-    @showWelcomeTip   = ko.observable yes, persist: 'TwitterFilter.showWelcomeTip'
+    @showWelcomeTip   = ko.observable yes, persist: 'TwitterFilter.showWelcomeTip_002'
     
     for setting, $default of @settings
       @[setting] = ko.observable $default, persist: 'TwitterFilter.' + setting
@@ -29,7 +29,6 @@ class DialogViewModel
     @visible          = ko.observable no
     
     # Define computed properties
-    @buttonStatusHtml = ko.computed => if @enabled() then '&#9745;' else '&#9744;'
     @toggleText       = ko.computed => if @enabled() then messages.get('disable') else messages.get('enable')
     @termsExcludeText = ko.computed => if @termsExclude() then messages.get('excluding') else messages.get('including')
     @usersExcludeText = ko.computed => if @usersExclude() then messages.get('excluding') else messages.get('including')
