@@ -1,0 +1,12 @@
+{
+    "id": "jid1-dAXJPVAAVcKWcw", 
+    "name": "open-tweet-filter",
+    "description": "Filter tweets in Twitter web site.", 
+    "license": "MIT", 
+    "author": "Ricardo Stuven", 
+    "url": "http://github.com/rstuven/OpenTweetFilter", 
+    "icon64": "data/img/icon.png", 
+    "version": "2.2.3", 
+    "fullName": "Open Tweet Filter", 
+    "icon": "data/img/icon.png" 
+}

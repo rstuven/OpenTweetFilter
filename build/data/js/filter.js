@@ -86,7 +86,7 @@
       var $default, setting, _ref,
         _this = this;
       this.showWelcomeTip = ko.observable(true, {
-        persist: 'TwitterFilter.showWelcomeTip_001'
+        persist: 'TwitterFilter.showWelcomeTip_002'
       });
       _ref = this.settings;
       for (setting in _ref) {
@@ -538,9 +538,7 @@
             href: '#',
             'data-bind': 'click: toggleVisible'
           }, function() {
-            return span('#filter-button-title', function() {
-              return text(messages.get('filter') + '&nbsp;', function() {});
-            });
+            return messages.get('filter');
           });
         });
       };

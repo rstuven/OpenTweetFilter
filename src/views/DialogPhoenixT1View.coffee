@@ -8,8 +8,7 @@ class DialogPhoenixT1View extends DialogPhoenixView
     buttonTemplate = ->
         li '#filter-button', 'data-name': 'filter', ->
           a '.js-filter-dialog', href: '#', 'data-bind': 'click: toggleVisible', ->
-            span '#filter-button-title', ->
-              text messages.get('filter') + '&nbsp;', ->
+              messages.get('filter')
 
     $('#user-dropdown ul li:nth-child(5)').after CoffeeKup.render buttonTemplate
     ko.applyBindings viewModel, $('#filter-button')[0]

@@ -68,7 +68,7 @@
   coffeekup.tags = merge_elements('regular', 'obsolete', 'void', 'obsolete_void');
   coffeekup.self_closing = merge_elements('void', 'obsolete_void');
   skeleton = function(data) {
-    var coffeescript, comment, doctype, h, ie, tag, text, yield, __ck, _ref, _ref2;
+    var coffeescript, comment, doctype, h, ie, tag, text, _yield, __ck, _ref, _ref2;
     if (data == null) {
       data = {};
     }
@@ -231,7 +231,7 @@
       }
       return __ck.render_tag(name, idclass, attrs, contents);
     };
-    yield = function(f) {
+    _yield = function(f) {
       var old_buffer, temp_buffer;
       temp_buffer = [];
       old_buffer = __ck.buffer;

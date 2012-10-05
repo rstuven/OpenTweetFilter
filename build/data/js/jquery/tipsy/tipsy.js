@@ -197,6 +197,6 @@
         return $(this).offset().left > ($(document).scrollLeft() + $(window).width() / 2) ? 'e' : 'w';
     };
 
-	$('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('jquery/tipsy/tipsy.css') + '" />');
+	//$('head').append('<link rel="stylesheet" type="text/css" href="' + chrome.extension.getURL('jquery/tipsy/tipsy.css') + '" />');
     
 })(jQuery);

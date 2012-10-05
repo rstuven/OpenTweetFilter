@@ -30,12 +30,12 @@ build = ->
       appContents[index] = fileContents
       link() if --remaining is 0
   link = ->
-    fs.writeFile 'build/filter.coffee', appContents.join('\n\n'), 'utf8', (err) ->
+    fs.writeFile 'build/data/js/filter.coffee', appContents.join('\n\n'), 'utf8', (err) ->
       return logerr err if err
-      exec "coffee --compile #{__dirname}/build/filter.coffee", (err, stdout, stderr) ->
+      exec "coffee --compile #{__dirname}/build/data/js/filter.coffee", (err, stdout, stderr) ->
         return logerr err if err
         console.log stdout + stderr
-        fs.unlink 'build/filter.coffee', (err) ->
+        fs.unlink 'build/data/js/filter.coffee', (err) ->
           return logerr err if err
           console.log 'Built.\n'
 
@@ -81,7 +81,7 @@ task 'pack:clear', 'Remove all package related files.', ->
     dir: "#{__dirname}"
     recursive: false
     matcher: (file) -> 
-      file.match(/\/package-cws-(.+)\.zip$/) or file.match(/\.crx$/) or file.match(/\.pem$/)
+      file.match(/\/package-(.+)\.zip$/) or file.match(/\.crx$/) or file.match(/\.pem$/) or file.match(/\.xpi$/)
     action: (file) -> fs.unlink file, (err) -> 
       return logerr err if err and err.code isnt 'ENOENT' # ENOENT: No such file or directory
 

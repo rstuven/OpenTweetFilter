@@ -1,13 +1,14 @@
-﻿/**
+/**
  * Button 
  */
 
-#filter-button {
-  background-color: white !important;
+.close-modal-background-target {
+    width: 100%;
 }
 
-#filter-button a {
-  height: 18px;
+#filter-button {
+  background-color: white !important;
+  margin-top: 0px;
 }
 
 .t1 .nav.filter {
@@ -21,6 +22,11 @@
 /**
  * Dialog
  */
+
+#filter-dialog-container.modal-container {
+    overflow-x: visible !important;
+    overflow-y: visible !important;
+}
 
 #filter-dialog fieldset {
     margin: 10px 0px;
@@ -114,4 +120,3 @@ a.filter-bookmarklet {
 .t1.es a.filter-bookmarklet {
   margin-right: 55px;
 }
-
