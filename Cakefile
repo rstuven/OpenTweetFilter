@@ -1,5 +1,4 @@
 fs          = require 'fs'
-path        = require 'path'
 util        = require 'util'
 {execFile, exec}  = require 'child_process'
 
@@ -61,7 +60,7 @@ task 'watch', 'Watch source files changes and build.', ->
 task 'pack:crx', 'Create or update a Chrome extension package.', ->
   args = ["--pack-extension=#{__dirname}/build"]
   pemFile = "#{__dirname}/build.pem";
-  if path.existsSync pemFile
+  if fs.existsSync pemFile
     args.push '--pack-extension-key=' + pemFile
   execFile process.env.LOCALAPPDATA + '/Google/Chrome/Application/chrome.exe', args, (err, stdout, stderr) ->
     return logerr err if err
