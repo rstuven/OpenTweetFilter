@@ -14,7 +14,7 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 
 ## Usage
 
-1. Install the official release from [Chrome Web Store](https://chrome.google.com/webstore/detail/bdmjagdcpkfpebaaffpafncgkleijako) or [Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/open-tweet-filter/).
+1. Install the official release from [Chrome Web Store](https://chrome.google.com/webstore/detail/bdmjagdcpkfpebaaffpafncgkleijako) or [the latest version for Firefox or Safari from here](https://github.com/rstuven/OpenTweetFilter/tree/packages).
 1. Refresh you *twitter.com* page.
 1. Press the **Filter** button at the top navigation bar.
 1. Enter terms separated by commas in the first field.
