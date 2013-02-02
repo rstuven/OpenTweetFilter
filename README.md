@@ -19,9 +19,9 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 1. Select the **Filter** option [in the gear icon drop down menu (just below "Lists" option)](http://goo.gl/iZCX8).
 1. Enter terms separated by commas in the first field.
 1. Enter user names separated by commas in the second field.
-1. Toggle **Including**/**Excluding** button before each field.
+1. Toggle **Including** / **Excluding** button before each field.
 1. Toggle **Show report of filtered tweets** checkbox.
-1. Toggle **Enable**/**Disable** button in the dialog footer.
+1. Toggle **Enable** / **Disable** button in the dialog footer.
 1. Save the configuration as a bookmarklet. Just drag the **OpenTweetFilter Settings** box and drop it to the bookmarks bar, then you can rename it to describe the filters. You can create as many bookmarklets as you want.
 1. Press **Clear** to reset all fields.
 
