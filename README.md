@@ -10,7 +10,6 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 ## Features:
 - You can filter out tweets by their contents or by their authors.
 - You can filter out tweets using regular expressions (for example, all words beginning in "auto" using:  /\Wauto/) 
-- It supports both the "new" and the "new new" Twitter versions.
 
 ## Usage
 
