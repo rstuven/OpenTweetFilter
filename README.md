@@ -22,6 +22,7 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 1. Toggle **Including**/**Excluding** button before each field.
 1. Toggle **Show report of filtered tweets** checkbox.
 1. Toggle **Enable**/**Disable** button in the dialog footer.
+1. Save the configuration as a bookmarklet. Just drag the **OpenTweetFilter Settings** box and drop it to the bookmarks bar, then you can rename it to describe the filters. You can create as many bookmarklets as you want.
 1. Press **Clear** to reset all fields.
 
 Feel free to experiment the effect of all these settings. The tweets are not deleted but just hidden, so you can get them back any time by disabling the filter or changing the criteria.
