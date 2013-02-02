@@ -10,6 +10,7 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 ## Features:
 - You can filter out tweets by their contents or by their authors.
 - You can filter out tweets using regular expressions (for example, all words beginning in "auto" using:  /\Wauto/) 
+- You can save your filters using a bookmarklet.
 
 ## Usage
 
@@ -25,7 +26,7 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 
 Feel free to experiment the effect of all these settings. The tweets are not deleted but just hidden, so you can get them back any time by disabling the filter or changing the criteria.
 
-*NOTE:* We respect your privacy, so no data is sent to any server. Your filters are processed in your computer and stored in your browser local storage (so **please, keep a copy of your filters in a safe place**).
+*NOTE:* We respect your privacy, so no data is sent to any server. Your filters are processed in your computer and stored in your browser local storage (so **please, use the bookmarklet feature or keep a copy of your filters in a safe place**).
 
 To suggest a feature, report a bug, or general discussion:
 http://github.com/rstuven/OpenTweetFilter/issues/
