@@ -44,6 +44,8 @@ http://github.com/rstuven/OpenTweetFilter/issues/
 
 	(To see more commands, just type `cake`.)
 
+### Chrome
+
 1. In Google Chrome, open **Tools > Extensions**, activate **Developer mode**, then **Load unpacked extension** and select the **build** directory.
 
 1. Disable the version installed from Chrome Web Store, if applies.
