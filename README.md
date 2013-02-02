@@ -36,13 +36,7 @@ http://github.com/rstuven/OpenTweetFilter/issues/
 
 1. Install Node.js, and then the CoffeeScript compiler:
 
-		sudo bin/cake install
-
-1. Or, if you have the Node Package Manager installed:
-
 		npm install -g coffee-script
-
-	(Leave off the `-g` if you don't wish to install globally.)
 
 1. Fork and clone the repository, then build the extension:
 
