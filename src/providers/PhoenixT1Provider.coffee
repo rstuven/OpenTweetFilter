@@ -27,7 +27,7 @@ class PhoenixT1Provider extends Provider
     @normalizeUser $('.screen-name.hidden').text()
 
   tweets: ->
-    $('div.tweet.original-tweet.js-stream-tweet')
+    $('div.tweet.js-original-tweet.js-stream-tweet')
 
   tweetText: (el) ->
     $(el).find('.js-tweet-text, .tweet-text,.entry-content, .twtr-tweet-text').text()

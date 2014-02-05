@@ -697,7 +697,7 @@
     };
 
     PhoenixT1Provider.prototype.tweets = function() {
-      return $('div.tweet.original-tweet.js-stream-tweet');
+      return $('div.tweet.js-original-tweet.js-stream-tweet');
     };
 
     PhoenixT1Provider.prototype.tweetText = function(el) {
