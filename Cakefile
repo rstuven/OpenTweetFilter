@@ -9,15 +9,11 @@ appFiles  = [
   'messages.es'
   'models/DialogViewModel'
   'models/ReportViewModel'
-  'views/DialogPhoenixView'
-  'views/DialogPhoenixT1View'
-  'views/ReportPhoenixView'
-  'views/ReportPhoenixT1View'
+  'views/View'
+  'views/PhoenixT1DialogView'
+  'views/PhoenixT1ReportView'
   'providers/Provider'
-  'providers/PhoenixProvider'
   'providers/PhoenixT1Provider'
-  'providers/FilterPhoenixProvider'
-  'providers/FilterPhoenixT1Provider'
   'Extension'
 ].map (file) -> "src/#{file}.coffee"
 

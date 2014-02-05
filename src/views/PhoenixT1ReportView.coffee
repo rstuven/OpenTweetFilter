@@ -1,12 +1,14 @@
 # 
-class ReportPhoenixView
+class PhoenixT1ReportView extends View
 
   template: ->
     div '.filter-report-component.component', 'data-bind': 'visible: visible', ->
-      div ->
-        h2 headerTemplate
-        div bodyTemplate
-      hr '.component-spacer'
+      div '.module', ->
+        div '.flex-module', ->
+          div '.flex-module-header', ->
+            h3 headerTemplate
+          div '.flex-module-inner', ->
+            div bodyTemplate
 
   headerTemplate: ->
     text messages.get('filtering_by_start')
@@ -16,7 +18,7 @@ class ReportPhoenixView
     span 'data-bind': 'text: filteringByEndMessage'
     text ' '
     span 'data-bind': 'text: filtersMessage'
-  
+
   bodyTemplate: ->
     span 'data-bind' : 'if: hasHiddenTweets', ->
       span -> messages.get('users_with_hidden_tweets') + ':'
@@ -31,7 +33,7 @@ class ReportPhoenixView
     $('.filter-report-component')
       .each(-> ko.cleanNode this)
       .remove()
-    
+
     html = CoffeeKup.render @template, hardcode:
       headerTemplate: @headerTemplate
       bodyTemplate: @bodyTemplate
