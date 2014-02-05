@@ -24,7 +24,7 @@ class PhoenixT1Provider extends Provider
     @normalizeUser $('.account-group.js-mini-current-user').data 'screen-name'
 
   screenUser: ->
-    @normalizeUser $('.screen-name.hidden').text()
+    @normalizeUser $('.screen-name:not(.hidden)').text()
 
   tweets: ->
     $('div.tweet.js-original-tweet.js-stream-tweet')
