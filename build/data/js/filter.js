@@ -571,11 +571,7 @@
             button('.modal-btn.modal-close', {
               'data-bind': 'click: toggleVisible'
             }, function() {
-              return i('.close-medium', function() {
-                return span('.hidden-elements', function() {
-                  return '\u0026times;';
-                });
-              });
+              return i('.close-medium', function() {});
             });
             div('.modal-header', function() {
               return h3('.modal-title', function() {

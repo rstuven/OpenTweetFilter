@@ -22,7 +22,6 @@ class DialogPhoenixT1View extends DialogPhoenixView
         div '.modal-content', ->
           button '.modal-btn.modal-close', 'data-bind': 'click: toggleVisible', ->
             i '.close-medium', ->
-              span '.hidden-elements', -> '\u0026times;'
           div '.modal-header', ->
             h3 '.modal-title', -> messages.get('filter_dialog_title')
           div '.modal-body', ->
