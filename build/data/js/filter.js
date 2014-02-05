@@ -693,7 +693,7 @@
     };
 
     PhoenixT1Provider.prototype.screenUser = function() {
-      return this.normalizeUser($('.screen-name').text());
+      return this.normalizeUser($('.screen-name.hidden').text());
     };
 
     PhoenixT1Provider.prototype.tweets = function() {
