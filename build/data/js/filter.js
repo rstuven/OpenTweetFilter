@@ -84,7 +84,7 @@
     function DialogViewModel() {
       var $default, setting, _ref;
       this.showWelcomeTip = ko.observable(true, {
-        persist: 'TwitterFilter.showWelcomeTip_002'
+        persist: 'TwitterFilter.showWelcomeTip_003'
       });
       _ref = this.settings;
       for (setting in _ref) {
