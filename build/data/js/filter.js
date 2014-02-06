@@ -385,10 +385,10 @@
             button('.modal-btn.modal-close', {
               'data-bind': 'click: toggleVisible'
             }, function() {
-              return i('.close-medium', function() {});
+              return span('.Icon.Icon--close.Icon--medium', function() {});
             });
-            div('.modal-header', function() {
-              return h3('.modal-title', function() {
+            div('.twttr-dialog-header.modal-header', function() {
+              return h3(function() {
                 return messages.get('filter_dialog_title');
               });
             });
@@ -430,7 +430,7 @@
                 });
               });
             });
-            return div('.modal-footer', function() {
+            return div('.twttr-dialog-footer.modal-footer', function() {
               div('.filter-dialog-footer-left', function() {
                 return a('.btn', {
                   'data-bind': 'click: clear'

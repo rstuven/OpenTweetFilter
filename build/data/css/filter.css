@@ -28,6 +28,22 @@
     overflow-y: visible !important;
 }
 
+#filter-dialog .modal-header {
+  padding: 15px 15px 14px;
+  border-bottom: 1px solid #e8e8e8;
+  height: 18px;
+  background-color: #eee;
+}
+
+#filter-dialog .modal-close {
+  right: 10px;
+  top: 13px;
+}
+
+#filter-dialog .modal-footer {
+  background-color: #eee;
+}
+
 #filter-dialog fieldset {
     margin: 10px 0px;
     width: 490px !important;

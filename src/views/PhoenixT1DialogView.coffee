@@ -29,9 +29,9 @@ class PhoenixT1DialogView extends View
       div '#filter-dialog.modal', ->
         div '.modal-content', ->
           button '.modal-btn.modal-close', 'data-bind': 'click: toggleVisible', ->
-            i '.close-medium', ->
-          div '.modal-header', ->
-            h3 '.modal-title', -> messages.get('filter_dialog_title')
+            span '.Icon.Icon--close.Icon--medium', ->
+          div '.twttr-dialog-header.modal-header', ->
+            h3 -> messages.get('filter_dialog_title')
           div '.modal-body', ->
             fieldset ->
               a '.btn.filter-list-label', 
@@ -54,7 +54,7 @@ class PhoenixT1DialogView extends View
                   'type': 'checkbox'
                   'data-bind' : "checked: showReportView"
                 span 'data-bind': 'click: toggleShowReportView', -> messages.get('show_report_view')
-          div '.modal-footer', ->
+          div '.twttr-dialog-footer.modal-footer', ->
             div '.filter-dialog-footer-left', ->
               a '.btn', 
                 'data-bind': 'click: clear', -> messages.get('clear')
