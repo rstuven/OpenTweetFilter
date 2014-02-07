@@ -18,7 +18,7 @@ class Extension
     @provider         .onNewTweets                      => @applyFilter()
     @dialogViewModel  .onSettingsChange                 => @applyFilter()
     
-    # Apply filter right now
+    # Apply filter right now!
     @applyFilter()
 
   # The extension's heart
