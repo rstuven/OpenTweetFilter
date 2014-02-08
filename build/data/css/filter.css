@@ -1,27 +1,11 @@
+
 /**
- * Button 
+ * Dialog
  */
 
 .close-modal-background-target {
     width: 100%;
 }
-
-#filter-button {
-  background-color: white !important;
-  margin-top: 0px;
-}
-
-.t1 .nav.filter {
-  margin-left: -12px;
-}
-
-.t1 .nav.filter li {
-  cursor: pointer;
-}
-
-/**
- * Dialog
- */
 
 #filter-dialog-container.modal-container {
     overflow-x: visible !important;
@@ -84,16 +68,8 @@
   margin-bottom: 2px;
 }
 
-div.filter-list-label {
-  padding-top: 4px;
-}
-
-.t1 div.filter-list-label {
+.t1 .filter-list-label {
   padding-top: 7px;
-}
-
-.filter-terms-list, .filter-users-list {
-  width: 465px !important;
 }
 
 .t1 .filter-terms-list, .t1 .filter-users-list {
