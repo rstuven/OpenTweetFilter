@@ -14,6 +14,7 @@ appFiles  = [
   'views/PhoenixT1ReportView'
   'providers/Provider'
   'providers/PhoenixT1Provider'
+  'providers/HighlineProvider'
   'Extension'
 ].map (file) -> "src/#{file}.coffee"
 

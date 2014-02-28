@@ -17,7 +17,7 @@ class DialogViewModel
   constructor: ->
     
     # Define persistent properties
-    @showWelcomeTip   = ko.observable yes, persist: 'TwitterFilter.showWelcomeTip_002'
+    @showWelcomeTip   = ko.observable yes, persist: 'TwitterFilter.showWelcomeTip_004'
     
     for setting, $default of @settings
       @[setting] = ko.observable $default, persist: 'TwitterFilter.' + setting

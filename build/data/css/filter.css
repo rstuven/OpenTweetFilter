@@ -32,7 +32,7 @@
     width: 490px !important;
 }
 
-.t1 #filter-dialog fieldset .btn {
+#filter-dialog fieldset .btn {
   font-weight: normal;
 }
 
@@ -67,15 +67,15 @@
   margin-bottom: 2px;
 }
 
-.t1 div.filter-list-label {
+div.filter-list-label {
   padding-top: 7px;
 }
 
-.t1 .filter-terms-list, .t1 .filter-users-list {
+.filter-terms-list, .filter-users-list {
   width: 455px !important;
 }
 
-.t1 #filter-dialog .modal-footer {
+#filter-dialog .modal-footer {
   padding-top: 10px;
   height: 25px;
 }
@@ -104,10 +104,10 @@ a.filter-bookmarklet {
   margin-right: 80px;
 }
 
-.t1 a.filter-bookmarklet {
+a.filter-bookmarklet {
   margin-right: 90px;
 }
 
-.t1.es a.filter-bookmarklet {
+.es a.filter-bookmarklet {
   margin-right: 55px;
 }

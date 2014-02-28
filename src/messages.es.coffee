@@ -20,4 +20,4 @@
   and: 'y'
   clear: 'Limpiar'
   filter: 'Filtros'
-  welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Open Tweet Filter.'
+  welcome_tip: 'Pssst... Aquí puedes configurar<br/>la extensión Open Tweet Filter. →'

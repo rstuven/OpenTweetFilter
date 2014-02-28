@@ -116,13 +116,13 @@ class PhoenixT1DialogView extends View
       el.remove()
 
   welcomeTip: ->
-    $('#user-dropdown i.nav-session')
+    $('#user-dropdown')
 
   showWelcomeTip: (viewModel) ->
     if viewModel.showWelcomeTip()
       setTimeout(=>
         @welcomeTip()
-          .tipsy(gravity: 'n', trigger: 'manual', html: true, fallback: messages.get('welcome_tip'))
+          .tipsy(gravity: 'e', trigger: 'manual', html: true, fallback: messages.get('welcome_tip'))
           .tipsy('show')
           .click ->
             $(@).tipsy 'hide'

@@ -2,7 +2,7 @@
 class Extension
 
   # Select the most suitable provider
-  provider: Provider.getActive PhoenixT1Provider
+  provider: Provider.getActive PhoenixT1Provider, HighlineProvider
   
   constructor: ->
 
