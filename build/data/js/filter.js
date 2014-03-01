@@ -766,7 +766,7 @@
     };
 
     HighlineProvider.prototype.tweetAuthor = function(el) {
-      return this.normalizeUser($(el).find('.js-action-profile-name').text());
+      return this.normalizeUser($(el).find('.username').text());
     };
 
     HighlineProvider.prototype.tweetAuthorPhoto = function(el) {

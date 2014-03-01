@@ -33,7 +33,7 @@ class HighlineProvider extends Provider
     $(el).find('.js-tweet-text, .entry-content, .ProfileTweet-text').text()
 
   tweetAuthor: (el) ->
-    @normalizeUser $(el).find('.js-action-profile-name').text()
+    @normalizeUser $(el).find('.username').text()
 
   tweetAuthorPhoto: (el) ->
     $(el).find('img.js-action-profile-avatar').attr 'src'
