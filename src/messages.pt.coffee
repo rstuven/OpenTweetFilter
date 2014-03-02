@@ -4,7 +4,7 @@
   disable: 'Desativar'
   excluding: 'Excluindo'
   including: 'Incluindo'
-  tweets_terms: 'tweets com términos'
+  tweets_terms: 'tweets com parâmetros'
   tweets_users: 'tweets de usuarios'
   filter_terms_list_title: 'Términos separados por vírgulas.<br/>Por ex.: twitcam, jijiji'
   filter_users_list_title: 'Usuarios separados por vírgulas.<br/>Por ej.: tuiterowsky, robocopano'
