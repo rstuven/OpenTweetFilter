@@ -6,7 +6,7 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __slice = [].slice;
 
-  supportedLangs = ['en', 'es', pt];
+  supportedLangs = ['en', 'es', 'pt'];
 
   this.messages = {
     lang: function() {
@@ -79,7 +79,7 @@
     disable: 'Desativar',
     excluding: 'Excluindo',
     including: 'Incluindo',
-    tweets_terms: 'tweets com términos',
+    tweets_terms: 'tweets com parâmetros',
     tweets_users: 'tweets de usuarios',
     filter_terms_list_title: 'Términos separados por vírgulas.<br/>Por ex.: twitcam, jijiji',
     filter_users_list_title: 'Usuarios separados por vírgulas.<br/>Por ej.: tuiterowsky, robocopano',
