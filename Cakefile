@@ -7,6 +7,7 @@ appFiles  = [
   'messages'
   'messages.en'
   'messages.es'
+  'messages.pt'
   'models/DialogViewModel'
   'models/ReportViewModel'
   'views/View'

@@ -1,4 +1,4 @@
-supportedLangs = ['en', 'es']
+supportedLangs = ['en', 'es', 'pt']
 
 @messages =
 
