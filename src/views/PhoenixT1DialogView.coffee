@@ -13,7 +13,7 @@ class PhoenixT1DialogView extends View
           a '.js-filter-dialog', href: '#', 'data-bind': 'click: toggleVisible', ->
               messages.get('filter')
 
-    $('#user-dropdown ul li:nth-child(5)').after CoffeeKup.render buttonTemplate
+    $('#user-dropdown ul li:nth-child(3)').after CoffeeKup.render buttonTemplate
     ko.applyBindings viewModel, $('#filter-button')[0]
 
   renderDialog: (viewModel) ->

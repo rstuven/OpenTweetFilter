@@ -372,7 +372,7 @@
           });
         });
       };
-      $('#user-dropdown ul li:nth-child(5)').after(CoffeeKup.render(buttonTemplate));
+      $('#user-dropdown ul li:nth-child(3)').after(CoffeeKup.render(buttonTemplate));
       return ko.applyBindings(viewModel, $('#filter-button')[0]);
     };
 
