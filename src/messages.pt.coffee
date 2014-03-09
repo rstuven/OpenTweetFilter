@@ -10,7 +10,7 @@
   filter_users_list_title: 'Usuarios separados por vírgulas.<br/>Por ej.: tuiterowsky, robocopano'
   show_report_view: 'Mostrar resumo de tweets filtrados.'
   bookmarklet_text: 'Configuração do OpenTweetFilter'
-  bookmarklet_title: 'Arraste esse bookmarklet para a barra de bookmarks para que você possa fazer um backup de seus filtros'
+  bookmarklet_title: 'Arraste esse bookmarklet para a barra de favoritos para que você possa fazer um backup de seus filtros'
   filtering_by_start: 'Ocultando'
   filtering_by_end: 'tweets por filtro de'
   filtering_by_end_singular: 'tweet por filtro de'
