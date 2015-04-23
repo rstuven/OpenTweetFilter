@@ -40,7 +40,7 @@ class HighlineProvider extends Provider
 
   tweetRetweeter: (el) ->
     href = $(el).find('.pretty-link.js-user-profile-link').attr 'href'
-    if href then href.replace '/#!/', '' else ''
+    if href then href.replace /^\//, '' else ''
 
   onNewTweets: (callback) ->
     $(document).on 'DOMNodeInserted', '.stream .stream-items', =>
