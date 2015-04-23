@@ -16,6 +16,9 @@ appFiles  = [
   'providers/Provider'
   'providers/PhoenixT1Provider'
   'providers/HighlineProvider'
+  'criteria/Criterion'
+  'criteria/TermCriterion'
+  'criteria/UserCriterion'
   'Extension'
 ].map (file) -> "src/#{file}.coffee"
 

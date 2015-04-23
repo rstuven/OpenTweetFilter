@@ -1,4 +1,3 @@
-# 
 class Extension
 
   # Select the most suitable provider
@@ -22,53 +21,36 @@ class Extension
     @applyFilter()
 
   # The extension's heart
-  applyFilter: -> @throttle 10, =>
+  applyFilter: -> @throttle 16, =>
 
     @dialogViewModel.reload()
-  
-    apply = @dialogViewModel.enabled() and @provider.filterCurrentPage()
 
-    if apply
-      termsRegExp = @filterRegExp @filterPattern @dialogViewModel.termsList(), false
-      usersRegExp = @filterRegExp @filterPattern @dialogViewModel.usersList(), true
+    if @dialogViewModel.enabled() and @provider.filterCurrentPage()
+      criteria = [
+        new TermCriterion @provider, @dialogViewModel, @dialogViewModel.termsList()
+        new UserCriterion @provider, @dialogViewModel, @dialogViewModel.usersList()
+      ]
+    else
+      criteria = []
 
     hiddenCount = 0
     hiddenUsers = {}
   
     @provider.tweets().each (i, el) =>
 
-      termsMatch = false
-      usersMatch = false
+      hide = true for c in criteria when c.match el
 
-      if apply
-        tweetAuthor = @provider.tweetAuthor(el)
-        
-        # Terms
-        if termsRegExp?
-          termsRegExp.lastIndex = 0
-          foundTermsMatches = termsRegExp.test @provider.tweetText(el)
-          termsMatch = @dialogViewModel.termsExclude() == foundTermsMatches
+      # Faster than jQuery 'hide' which causes reflow and repaint (call to getComputedStyle).
+      el.style.display = if hide then 'none' else 'block'
 
-        # Users (author or retweeter)
-        if usersRegExp?
-          usersRegExp.lastIndex = 0
-          foundUserMatches = usersRegExp.test tweetAuthor
-          if not foundUserMatches
-            usersRegExp.lastIndex = 0
-            foundUserMatches = usersRegExp.test @provider.tweetRetweeter(el)
-          usersMatch = @dialogViewModel.usersExclude() == foundUserMatches
-
-      if termsMatch or usersMatch
-        el.style.display = 'none' # Faster than jQuery 'hide' which causes reflow and repaint (call to getComputedStyle).
+      if hide
         hiddenCount++
-        if not (tweetAuthor of hiddenUsers)
-          hiddenUsers[tweetAuthor] = @provider.tweetAuthorPhoto(el)
-      else 
-        el.style.display = 'block'  # Faster than jQuery 'show' which causes reflow and repaint (call to getComputedStyle).
-    
+        tweetAuthor = @provider.tweetAuthor(el)
+        hiddenUsers[tweetAuthor] ?= @provider.tweetAuthorPhoto(el)
+
     # Update report view model
     @reportViewModel
-      .applied(apply)
+      .applied(criteria.length > 0)
       .hasTerms(termsRegExp?)
       .hasUsers(usersRegExp?)
       .hiddenCount(hiddenCount)
@@ -85,33 +67,6 @@ class Extension
       key = fn.toString()
       clearTimeout timeout[key]
       timeout[key] = setTimeout fn, delay
-
-  # Build a filter regular expression pattern
-  filterPattern: (csv, whole) ->
-    values = csv.split ','
-    values = $.map values, (v, i) ->
-      v = $.trim v
-      if v.length > 2 and v[0] == '/' and v[v.length - 1] == '/'
-        # support user regexes
-        v.substr 1, v.length - 2
-      else
-        # escape some characters
-        v.replace /([\.\(\)\[\]\{\}\+\*\?\\])/g, '\\$1'
-    
-    values = $.grep values, (v, i) -> v != ''
-  
-    return null if values.length is 0
-    
-    values = '('+ values.join('|') + ')'
-    if whole then "^#{values}$" else values
-
-  # Build an actual regular expression
-  filterRegExp: (pattern) ->
-    return null unless pattern?
-    try
-      new RegExp pattern, 'gi'
-    catch e
-      null
 
 # Go!
 new Extension()
