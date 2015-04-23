@@ -9,4 +9,6 @@ class Provider
 
   # Get an instance of the first active provider
   @getActive: (providers...) ->
-    return p for p in providers.map((x) -> new x) when p.isActive()
+    providers = providers.map (x) -> new x
+    return p for p in providers when p.isActive()
+    return providers[providers.length - 1]
