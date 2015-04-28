@@ -1,13 +1,14 @@
 {
   "name": "open-tweet-filter",
-  "version": "2.4.0",
+  "version": "2.4.3",
   "description": "Filter tweets in Twitter web site.",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "pack:crx": "cake pack:crx",
-    "pack:cws": "cake pack:cws",
+    "pack:patch": "cake pack:patch",
+    "pack:minor": "cake pack:minor",
+    "pack:major": "cake pack:major",
     "pack:clear": "cake pack:clear",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
