@@ -37,8 +37,8 @@
     bookmarklet_text: 'OpenTweetFilter Settings',
     bookmarklet_title: 'Drag this bookmarklet to the bookmarks bar so you can backup your filters',
     filtering_by_start: 'Hiding',
-    filtering_by_end: 'tweets by filter of',
-    filtering_by_end_singular: 'tweet by filter of',
+    filtering_by_end: 'tweets by filter',
+    filtering_by_end_singular: 'tweet by filter',
     users_with_hidden_tweets: 'Users with hidden tweets',
     terms: 'terms',
     people: 'people',
@@ -62,8 +62,8 @@
     bookmarklet_text: 'Configuración de OpenTweetFilter',
     bookmarklet_title: 'Arrastra este elemento a la barra de marcadores para respaldar tus filtros',
     filtering_by_start: 'Ocultando',
-    filtering_by_end: 'tweets por filtro de',
-    filtering_by_end_singular: 'tweet por filtro de',
+    filtering_by_end: 'tweets por filtro',
+    filtering_by_end_singular: 'tweet por filtro',
     users_with_hidden_tweets: 'Usuarios con tweets ocultos',
     terms: 'términos',
     people: 'usuarios',
@@ -87,8 +87,8 @@
     bookmarklet_text: 'Configuração do OpenTweetFilter',
     bookmarklet_title: 'Arraste esse bookmarklet para a barra de bookmarks para que você possa fazer um backup de seus filtros',
     filtering_by_start: 'Ocultando',
-    filtering_by_end: 'tweets por filtro de',
-    filtering_by_end_singular: 'tweet por filtro de',
+    filtering_by_end: 'tweets por filtro',
+    filtering_by_end_singular: 'tweet por filtro',
     users_with_hidden_tweets: 'Usuarios com tweets ocultos',
     terms: 'termos',
     people: 'usuarios',
@@ -275,13 +275,11 @@
   ReportViewModel = (function() {
     function ReportViewModel(dialogViewModel) {
       this.applied = ko.observable(false);
-      this.hasTerms = ko.observable(false);
-      this.hasUsers = ko.observable(false);
       this.hiddenCount = ko.observable(false);
       this.hiddenUsers = ko.observable(false);
       this.visible = ko.computed((function(_this) {
         return function() {
-          return dialogViewModel.showReportView() && _this.applied() && (_this.hasTerms() || _this.hasUsers());
+          return dialogViewModel.showReportView() && _this.applied() && _this.hiddenCount() > 0;
         };
       })(this));
       this.hasHiddenTweets = ko.computed((function(_this) {
@@ -296,19 +294,6 @@
           } else {
             return messages.get('filtering_by_end');
           }
-        };
-      })(this));
-      this.filtersMessage = ko.computed((function(_this) {
-        return function() {
-          var filters;
-          filters = [];
-          if (_this.hasTerms()) {
-            filters.push(messages.get('terms'));
-          }
-          if (_this.hasUsers()) {
-            filters.push(messages.get('people'));
-          }
-          return filters.join(' ' + messages.get('and') + ' ');
         };
       })(this));
       this.usersPhotos = ko.computed((function(_this) {
@@ -606,10 +591,7 @@
       span({
         'data-bind': 'text: filteringByEndMessage'
       });
-      text(' ');
-      return span({
-        'data-bind': 'text: filtersMessage'
-      });
+      return text('.');
     };
 
     PhoenixT1ReportView.prototype.bodyTemplate = function() {
@@ -1004,7 +986,7 @@
               return hiddenUsers[tweetAuthor] != null ? hiddenUsers[tweetAuthor] : hiddenUsers[tweetAuthor] = _this.provider.tweetAuthorPhoto(el);
             }
           });
-          _this.reportViewModel.applied(criteria.length > 0).hasTerms(typeof termsRegExp !== "undefined" && termsRegExp !== null).hasUsers(typeof usersRegExp !== "undefined" && usersRegExp !== null).hiddenCount(hiddenCount).hiddenUsers(hiddenUsers);
+          _this.reportViewModel.applied(criteria.length > 0).hiddenCount(hiddenCount).hiddenUsers(hiddenUsers);
           return _this.throttle(1000, function() {
             return _this.provider.reportView.render(_this.reportViewModel);
           });

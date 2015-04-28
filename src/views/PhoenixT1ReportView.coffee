@@ -16,8 +16,7 @@ class PhoenixT1ReportView extends View
     span '.user-stat-link', 'data-bind': 'text: hiddenCount'
     text ' '
     span 'data-bind': 'text: filteringByEndMessage'
-    text ' '
-    span 'data-bind': 'text: filtersMessage'
+    text '.'
 
   bodyTemplate: ->
     span 'data-bind' : 'if: hasHiddenTweets', ->

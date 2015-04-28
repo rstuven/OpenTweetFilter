@@ -5,14 +5,12 @@ class ReportViewModel
  
     # Temporary properties
     @applied        = ko.observable false
-    @hasTerms       = ko.observable false
-    @hasUsers       = ko.observable false
     @hiddenCount    = ko.observable false
     @hiddenUsers    = ko.observable false
     
     # Computed properites
     @visible = ko.computed =>
-      dialogViewModel.showReportView() and @applied() and (@hasTerms() or @hasUsers())
+      dialogViewModel.showReportView() and @applied() and @hiddenCount() > 0
     
     @hasHiddenTweets = ko.computed =>
       @hiddenCount() isnt 0
@@ -22,12 +20,6 @@ class ReportViewModel
         messages.get('filtering_by_end_singular')
       else
         messages.get('filtering_by_end')
-    
-    @filtersMessage = ko.computed =>
-      filters = []
-      filters.push messages.get('terms') if @hasTerms()
-      filters.push messages.get('people') if @hasUsers()
-      filters.join ' ' + messages.get('and') + ' '
 
     @usersPhotos = ko.computed =>
       {title, src} for title, src of @hiddenUsers() when src

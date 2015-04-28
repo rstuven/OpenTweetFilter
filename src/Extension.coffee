@@ -51,8 +51,6 @@ class Extension
     # Update report view model
     @reportViewModel
       .applied(criteria.length > 0)
-      .hasTerms(termsRegExp?)
-      .hasUsers(usersRegExp?)
       .hiddenCount(hiddenCount)
       .hiddenUsers(hiddenUsers)
 
