@@ -1,4 +1,4 @@
-@messages.pt =
+module.exports =
   filter_dialog_title: 'Filtros'
   enable: 'Ativar'
   disable: 'Desativar'

@@ -1,5 +1,5 @@
 # Twitter DOM provider.
-class Provider
+class @Provider
 
   inMyProfilePage: ->
     @screenUser() is @sessionUser()

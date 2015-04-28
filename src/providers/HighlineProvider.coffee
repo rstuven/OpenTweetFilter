@@ -1,5 +1,10 @@
+$ = require 'jquery'
+{Provider} = require './Provider'
+{PhoenixT1DialogView} = require '../views/PhoenixT1DialogView'
+{PhoenixT1ReportView} = require '../views/PhoenixT1ReportView'
+
 # Twitter DOM provider for Highline UI.
-class HighlineProvider extends Provider
+class @HighlineProvider extends Provider
 
   dialogView: new PhoenixT1DialogView
   reportView: new PhoenixT1ReportView

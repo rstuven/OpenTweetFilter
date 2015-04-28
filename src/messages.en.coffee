@@ -1,4 +1,4 @@
-@messages.en =
+module.exports =
   filter_dialog_title: 'Filters'
   enable: 'Enable'
   disable: 'Disable'

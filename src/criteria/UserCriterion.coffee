@@ -1,4 +1,6 @@
-class UserCriterion extends Criterion
+{Criterion} = require './Criterion'
+
+class @UserCriterion extends Criterion
 
   constructor: (@provider, @dialogViewModel, list) ->
     super list, true

@@ -1,0 +1,31 @@
+mixin headerTemplate
+  h3
+    | #{ messages.get('filtering_by_start') }
+    | &nbsp;
+    span.user-stat-link(data-bind='text: hiddenCount')
+    | &nbsp;
+    span(data-bind='text: filteringByEndMessage')
+    | .
+
+mixin bodyTemplate
+  div
+    span(data-bind='if: hasHiddenTweets')
+      span #{ messages.get('users_with_hidden_tweets') }:
+      br
+    span(data-bind='foreach: usersPhotos')
+      img(
+        data-bind='attr: {src: $data.src, title: $data.title}'
+        style='margin-right:5px;'
+        width=24
+        height=24
+        )
+    span(data-bind='foreach: usersNames')
+      div(data-bind='text: $data + "&nbsp;&nbsp"')
+
+.filter-report-component.component(data-bind='visible: visible')
+  .module
+    .flex-module
+      .flex-module-header
+        +headerTemplate
+      .flex-module-inner
+        +bodyTemplate

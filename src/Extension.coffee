@@ -1,3 +1,12 @@
+$ = require 'jquery'
+{Provider} = require './providers/Provider'
+{PhoenixT1Provider} = require './providers/PhoenixT1Provider'
+{HighlineProvider} = require './providers/HighlineProvider'
+{DialogViewModel} = require './models/DialogViewModel'
+{ReportViewModel} = require './models/ReportViewModel'
+{TermCriterion} = require './criteria/TermCriterion'
+{UserCriterion} = require './criteria/UserCriterion'
+
 class Extension
 
   # Select the most suitable provider

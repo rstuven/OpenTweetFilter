@@ -1,62 +1,5 @@
 fs          = require 'fs'
-util        = require 'util'
 {execFile, exec}  = require 'child_process'
-
-appFiles  = [
-  # omit 'src/' and '.coffee' to make the below lines a little shorter
-  'messages'
-  'messages.en'
-  'messages.es'
-  'messages.pt'
-  'models/DialogViewModel'
-  'models/ReportViewModel'
-  'views/View'
-  'views/PhoenixT1DialogView'
-  'views/PhoenixT1ReportView'
-  'providers/Provider'
-  'providers/PhoenixT1Provider'
-  'providers/HighlineProvider'
-  'criteria/Criterion'
-  'criteria/TermCriterion'
-  'criteria/UserCriterion'
-  'Extension'
-].map (file) -> "src/#{file}.coffee"
-
-build = ->
-
-  appContents = new Array remaining = appFiles.length
-  for file, index in appFiles then do (file, index) ->
-    fs.readFile file, 'utf8', (err, fileContents) ->
-      return logerr err if err
-      appContents[index] = fileContents
-      link() if --remaining is 0
-  link = ->
-    fs.writeFile 'build/data/js/filter.coffee', appContents.join('\n\n'), 'utf8', (err) ->
-      return logerr err if err
-      exec "coffee --compile #{__dirname}/build/data/js/filter.coffee", (err, stdout, stderr) ->
-        return logerr err if err
-        console.log stdout + stderr
-        fs.unlink 'build/data/js/filter.coffee', (err) ->
-          return logerr err if err
-          console.log 'Built.\n'
-
-task 'build', 'Build single application file from source files.', ->
-  build()
-
-task 'watch', 'Watch source files changes and build.', ->
-  build()
-  @event = null
-  @filename = null
-  for file, index in appFiles then do (file, index) ->
-    fs.watch file, (event, filename) =>
-      if event != @event or filename != @filename
-        console.log event + ' ' + filename
-      @event = event
-      @filename = filename
-      throttle 100, =>
-        build()
-        @event = null
-        @filename = null
 
 task 'pack:crx', 'Create or update a Chrome extension package.', ->
   args = ["--pack-extension=#{__dirname}/build"]
@@ -83,29 +26,15 @@ task 'pack:clear', 'Remove all package related files.', ->
     recursive: false
     matcher: (file) -> 
       file.match(/\/package-(.+)\.zip$/) or file.match(/\.crx$/) or file.match(/\.pem$/) or file.match(/\.xpi$/)
-    action: (file) -> fs.unlink file, (err) -> 
+    action: (file) -> fs.unlink file, (err) ->
       return logerr err if err and err.code isnt 'ENOENT' # ENOENT: No such file or directory
+      console.log 'Removed ' + file
 
 # Utils
 
 logerr = (err) ->
-  console.log err.message + '\n'
+  console.error err.message + '\n'
 
-throttle = do ->
-  timeout = null
-  (delay, fn) ->
-    clearTimeout timeout
-    timeout = setTimeout fn, delay
-
-fs.copy = (src, dst, ow, cb) ->
-  fs.stat dst, (err) ->
-    return cb new Error "File #{dst} exists." if not err and not ow
-    fs.stat src, (err) ->
-      return cb err if err
-      ist = fs.createReadStream src
-      ost = fs.createWriteStream dst
-      util.pump ist, ost, cb
- 
 # Based on Rosetta Code
 walk = (options) ->
   dir = options.dir
@@ -121,4 +50,3 @@ walk = (options) ->
       if recursive and fs.statSync(fn).isDirectory()
         _walk fn
   _walk(dir)
- 

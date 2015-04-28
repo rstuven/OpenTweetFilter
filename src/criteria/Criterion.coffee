@@ -1,4 +1,6 @@
-class Criterion
+$ = require 'jquery'
+
+class @Criterion
 
   constructor: (csv, whole) ->
     @rx = @buildRegExp @buildPattern csv, whole

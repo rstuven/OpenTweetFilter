@@ -1,5 +1,7 @@
-#
-class ReportViewModel
+ko = require 'knockout'
+messages = require '../messages'
+
+class @ReportViewModel
 
   constructor: (dialogViewModel) ->
  

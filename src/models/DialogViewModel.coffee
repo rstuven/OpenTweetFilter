@@ -1,6 +1,10 @@
+ko = require 'knockout'
+require('knockout.persist')(ko)
+messages = require '../messages'
+
 # The extension view model is powered by Knockout.js
 # See http://knockoutjs.com/documentation/observables.html
-class DialogViewModel
+class @DialogViewModel
 
   # Settings schema versioning
   version: 2
@@ -17,10 +21,10 @@ class DialogViewModel
   constructor: ->
     
     # Define persistent properties
-    @showWelcomeTip   = ko.observable yes, persist: 'TwitterFilter.showWelcomeTip_004'
+    @showWelcomeTip   = ko.observable(yes).extend persist: 'TwitterFilter.showWelcomeTip_004'
     
     for setting, $default of @settings
-      @[setting] = ko.observable $default, persist: 'TwitterFilter.' + setting
+      @[setting] = ko.observable($default).extend persist: 'TwitterFilter.' + setting
 
     # Migrate old settings schemas since version 1
     @migrateSince 1
@@ -66,7 +70,8 @@ class DialogViewModel
   # Load from localStorage
   reload: ->
     for setting of @settings
-      @[setting].reload()
+      @[setting].reload?()
+    return
 
   # Subscribe to all settings
   onSettingsChange: (callback) ->

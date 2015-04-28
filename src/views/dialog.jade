@@ -1,0 +1,49 @@
+#filter-dialog-container.modal-container.draggable
+  .close-modal-background-target
+  #filter-dialog.modal
+    .modal-content
+      button.modal-btn.modal-close(data-bind='click: toggleVisible')
+        span.Icon.Icon--close.Icon--medium
+      .twttr-dialog-header.modal-header
+        h3 #{ messages.get('filter_dialog_title') }
+      .modal-body
+        fieldset
+          a.btn.filter-list-label(
+            data-bind='text: termsExcludeText, click: toggleTermsExclude'
+            )
+          .filter-list-label
+            | &nbsp; #{ messages.get('tweets_terms') }:
+          input.filter-terms-list(
+            type='text'
+            data-bind="value: termsList, valueUpdate: ['change', 'afterkeydown']"
+            )
+          div &nbsp;
+          a.btn.filter-list-label(
+            data-bind='text: usersExcludeText, click: toggleUsersExclude'
+            )
+          .filter-list-label
+            | &nbsp; #{ messages.get('tweets_users') }:
+          input.filter-users-list(
+            type='text'
+            data-bind="value: usersList, valueUpdate: ['change', 'afterkeydown']"
+            )
+          label.checkbox
+            input(
+              type='checkbox'
+              data-bind="checked: showReportView"
+              )
+            span(
+              data-bind='click: toggleShowReportView'
+              ) #{ messages.get('show_report_view') }
+      .twttr-dialog-footer.modal-footer
+        .filter-dialog-footer-left
+          a.btn(
+            data-bind='click: clear'
+            )  #{ messages.get('clear') }
+        .filter-dialog-footer-right
+          a.filter-bookmarklet(
+            data-bind='attr: {href: bookmarklet}'
+            ) #{ messages.get('bookmarklet_text') }
+          a.btn(
+            data-bind='text: toggleText, click: toggleEnabled'
+            )

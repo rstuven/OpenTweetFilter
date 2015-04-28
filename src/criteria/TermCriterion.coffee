@@ -1,4 +1,6 @@
-class TermCriterion extends Criterion
+{Criterion} = require './Criterion'
+
+class @TermCriterion extends Criterion
 
   constructor: (@provider, @dialogViewModel, list) ->
     super list, false
