@@ -1,16 +1,19 @@
-<img src="https://github.com/rstuven/OpenTweetFilter/raw/master/assets/tile.440x280.png">
+![Logo](https://github.com/rstuven/OpenTweetFilter/raw/master/assets/tile.440x280.png)
 
-# Welcome to Open Tweet Filter
+# Open Tweet Filter
 
 The open source browser extension to filter tweets.
 
 If you have a lot of tweets filling your timeline about certain topic or person you are not interested in, this extension is for you.
 Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent people talk the same hive-minded shite about TV programs". :-)
 
+
 ## Features:
-- You can filter out tweets by their contents or by their authors.
-- You can filter out tweets using regular expressions (for example, all words beginning in "auto" using:  /\Wauto/) 
-- You can save your filters using bookmarklets.
+
+- Filter out tweets by their contents or by their authors/retweeters.
+- Filter out tweets using regular expressions (for example, match all words starting with "auto" using:  /\Wauto/)
+- Save your filters using bookmarklets.
+
 
 ## Usage
 
@@ -25,34 +28,52 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 1. Save the configuration as a bookmarklet. Just drag the **OpenTweetFilter Settings** box and drop it to the bookmarks bar, then you can rename it to describe the filters. You can create as many bookmarklets as you want.
 1. Press **Clear** to reset all fields.
 
-Feel free to experiment with the effect of all these settings. The tweets are not deleted but just hidden, so you can get them back any time by disabling the filter or changing the criteria.
+Feel free to experiment with the effect of all these settings.
+The tweets are not deleted but just hidden,
+so you can get them back any time by disabling the filter or changing the criteria.
 
-*NOTE:* We respect your privacy, so no data is sent to any server. Your filters are processed in your computer and stored in your browser local storage (so **please, use the bookmarklet feature or keep a copy of your filters in a safe place**).
+*NOTE:* We respect your privacy, so no data is sent to any server.
+Your filters are processed in your computer and stored in your browser local storage
+(so **please, use the bookmarklet feature or keep a copy of your filters in a safe place**).
 
 To suggest a feature, report a bug, or general discussion:
 http://github.com/rstuven/OpenTweetFilter/issues/
 
+
 ## Development
 
-1. Install Node.js, and then the CoffeeScript compiler:
+1. Clone the repository
 
-		npm install -g coffee-script
+1. Install Node.js
 
-1. Fork and clone the repository, then build the extension:
+1. Install dependencies
 
-		cake build
+		npm install
 
-	(To see more commands, just type `cake`.)
+1. Make some changes.
+
+1. Build the extension:
+
+		npm build
+
+1. Builds can be slow. If you plan to make more changes, prefer:
+
+    npm run watch
+
 
 ### Chrome
 
-1. In Google Chrome, open **Tools > Extensions**, activate **Developer mode**, then **Load unpacked extension** and select the **build** directory.
+1. Go to chrome://extensions/, activate **Developer mode**, then **Load unpacked extension** and select the **build** directory.
 
 1. Disable the version installed from Chrome Web Store, if applies.
+
+1. After every build, go to chrome://extensions/ and **Reload (Ctrl+R)** and refresh Twitter site.
+
 
 ## Acknowledgements
 
 **Open Tweet Filter** logo by [@StoicYoic](https://twitter.com/StoicYoic) using *Twitter Bird* by [~freakyframes](http://freakyframes.deviantart.com/art/Twitter-Bird-127757230) and *Funnel Icon* by [IconEden](http://www.veryicon.com/icons/system/fresh-addon/funnel.html).
+
 
 ## License
 
