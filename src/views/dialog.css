@@ -18,13 +18,30 @@
   background-color: #eee;
 }
 
+.rtl #filter-dialog .modal-header {
+  padding: 10px 30px 15px;
+  border-bottom: 1px solid #e8e8e8;
+  height: 18px;
+  background-color: #eee;
+}
+
 #filter-dialog .modal-close {
   right: 10px;
   top: 13px;
 }
 
+.rtl #filter-dialog .modal-close {
+  right: 5px;
+  top: 13px;
+}
+
 #filter-dialog .modal-footer {
   background-color: #eee;
+}
+
+
+#filter-dialog .modal-footer {
+  padding-bottom: 30px;
 }
 
 #filter-dialog fieldset {
@@ -62,9 +79,22 @@
   margin-right: 5px;
 }
 
+.rtl #filter-dialog .checkbox input {
+  margin-right: 0px !important;
+}
+
+.rtl #filter-dialog .checkbox span{
+  padding-right: 5px;
+}
+
 .btn.filter-list-label {
   float:left;
   margin-bottom: 2px;
+}
+
+.rtl .btn.filter-list-label {
+  margin-bottom: 10px;
+  margin-left: 30px;
 }
 
 div.filter-list-label {
@@ -80,14 +110,31 @@ div.filter-list-label {
   height: 25px;
 }
 
+
 .modal-footer .filter-dialog-footer-left {
   left: 10px;
+  float: left;
+}
+
+.rtl .modal-footer .filter-dialog-footer-left {
+  left: 20px;
   float: left;
 }
 
 .modal-footer .filter-dialog-footer-right {
   right: 10px;
   float: right;
+}
+
+.rtl .modal-footer .filter-dialog-footer-right {
+  right: 20px;
+  float: right;
+}
+.modal-footer .filter-dialog-footer-right .btn:first-child {
+  margin-right: 10px;
+}
+.rtl .modal-footer .filter-dialog-footer-right .btn:first-child {
+  margin-left: 10px;
 }
 
 a.filter-bookmarklet {
@@ -97,17 +144,7 @@ a.filter-bookmarklet {
   background: #ddd;
   font-size: 11px;
   color: #000 !important;
-  margin-right: 110px;
-}
-
-.es a.filter-bookmarklet {
-  margin-right: 80px;
-}
-
-a.filter-bookmarklet {
-  margin-right: 90px;
-}
-
-.es a.filter-bookmarklet {
-  margin-right: 55px;
+  margin-left: 10px;
+  margin-top: 10px;
+  float: left;
 }
