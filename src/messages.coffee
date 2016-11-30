@@ -4,6 +4,7 @@ langs =
   en: require './messages.en'
   es: require './messages.es'
   pt: require './messages.pt'
+  fa: require './messages.fa'
 
 module.exports =
 
