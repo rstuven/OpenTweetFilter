@@ -37,13 +37,13 @@
               ) #{ messages.get('show_report_view') }
       .twttr-dialog-footer.modal-footer
         .filter-dialog-footer-left
-          a.btn(
-            data-bind='click: clear'
-            )  #{ messages.get('clear') }
-        .filter-dialog-footer-right
           a.filter-bookmarklet(
             data-bind='attr: {href: bookmarklet}'
             ) #{ messages.get('bookmarklet_text') }
+        .filter-dialog-footer-right
           a.btn(
             data-bind='text: toggleText, click: toggleEnabled'
             )
+          a.btn(
+            data-bind='click: clear'
+            )  #{ messages.get('clear') }
