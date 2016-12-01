@@ -13,8 +13,7 @@
             )
           .filter-list-label
             | &nbsp; #{ messages.get('tweets_terms') }:
-          input.filter-terms-list(
-            type='text'
+          textarea.filter-terms-list(
             data-bind="value: termsList, valueUpdate: ['change', 'afterkeydown']"
             )
           div &nbsp;
@@ -23,8 +22,7 @@
             )
           .filter-list-label
             | &nbsp; #{ messages.get('tweets_users') }:
-          input.filter-users-list(
-            type='text'
+          textarea.filter-users-list(
             data-bind="value: usersList, valueUpdate: ['change', 'afterkeydown']"
             )
           label.checkbox
