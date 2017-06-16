@@ -1,5 +1,6 @@
 $ = require 'jquery'
 {Provider} = require './providers/Provider'
+{EdgeProvider} = require './providers/EdgeProvider'
 {PhoenixT1Provider} = require './providers/PhoenixT1Provider'
 {HighlineProvider} = require './providers/HighlineProvider'
 {DialogViewModel} = require './models/DialogViewModel'
@@ -10,7 +11,7 @@ $ = require 'jquery'
 class Extension
 
   # Select the most suitable provider
-  provider: Provider.getActive PhoenixT1Provider, HighlineProvider
+  provider: Provider.getActive EdgeProvider, PhoenixT1Provider, HighlineProvider
   
   constructor: ->
 
