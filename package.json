@@ -1,6 +1,6 @@
 {
   "name": "open-tweet-filter",
-  "version": "2.4.4",
+  "version": "2.5.0",
   "description": "Filter tweets in Twitter web site.",
   "main": "index.js",
   "scripts": {
