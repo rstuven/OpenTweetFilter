@@ -1,5 +1,4 @@
 ![Logo](https://github.com/rstuven/OpenTweetFilter/raw/master/assets/tile.440x280.png)
-
 # Open Tweet Filter
 
 The open source browser extension to filter tweets.
@@ -13,6 +12,8 @@ Or, as a user put it in a review, "Ahhhh, I no longer have to see intelligent pe
 - Filter out tweets by their contents or by their authors/retweeters.
 - Filter out tweets using regular expressions (for example, match all words starting with "auto" using:  /\Wauto/)
 - Save your filters using bookmarklets.
+- Support for RTL languages.
+- Available in Farsi.
 
 
 ## Usage
